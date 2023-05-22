@@ -18,10 +18,7 @@
       background-color: #000;
       padding-top: 20px;
       padding-bottom: 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
+      position: static; /* 修改为 static */
       z-index: 999;
     }
 
@@ -238,23 +235,20 @@
         return false;
       });
 
-      // Fade in sections on scroll
+      // Fade in elements on scroll
       $(window).scroll(function () {
         $('.fade-in').each(function () {
-          var top_of_element = $(this).offset().top;
-          var bottom_of_element = top_of_element + $(this).outerHeight();
-          var bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
-          var top_of_screen = $(window).scrollTop();
-
-          if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
+          var bottom_of_element = $(this).offset().top + $(this).outerHeight() / 2;
+          var bottom_of_window = $(window).scrollTop() + $(window).height();
+          if (bottom_of_window > bottom_of_element) {
             $(this).addClass('visible');
-          } else {
-            $(this).removeClass('visible');
           }
         });
       });
     });
   </script>
+
+  
 </body>
 <footer class="footer">
   <div class="container">
@@ -262,4 +256,3 @@
   </div>
 </footer>
 </html>
-
