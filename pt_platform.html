@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>屏東區水產池邊價平台</title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="bootstrap/js/bootstrap.bundle.min.js"></script>  
+  <style>
+    /* 共用樣式 */
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* 頁面樣式 */
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    /* 按鈕樣式 */
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .button:hover {
+      background-color: #333;
+    }
+
+    .button.disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .button-container .disabled-message {
+      font-size: 16px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>屏東區水產池邊價平台</h1>
+    <p>
+      於2022/9/23正式試營運，目前會員人數有133人。
+      會員經過系統報價後會通過line通知自動報價到line群組，
+      第一時間讓會員知道最新池邊價行情。
+      並且池邊價會依不同魚類分類記錄，
+      且我們只讓會員有權限去讀取歷史資料。
+      目前架構只需要會使用line和基本點連結點表單能力就能夠進行報價和查價，降低使用門檻。
+    </p>
+    
+    <h2>申請加入</h2>
+    <p>請跟著下面步驟一步一步來進行加入步驟</p>
+    
+    <h3>步驟1</h3>
+    <p>這是第一個步驟的說明</p>
+    
+    <h3>步驟2</h3>
+    <p>這是第二個步驟的說明</p>
+    
+    <h3>步驟3</h3>
+    <p>這是第三個步驟的說明</p>
+    
+    <div class="button-container">
+      <a class="button" href="#">填申請單</a>
+    </div>
+    
+    <div class="button-container">
+      <button class="button" onclick="goBack()">回到上一頁</button>
+    </div>
+  </div>
+  
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>
