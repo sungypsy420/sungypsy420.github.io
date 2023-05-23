@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>養殖漁業大數據共享平台</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha384-BsiwUN+p8FA9H0niI9VXdo4n+zCTsqQC/9tlz7w8zVyGyfxn8eXO0rG2B2o6oCjS" crossorigin="anonymous">
   <style>
     /* 共用樣式 */
     body {
@@ -18,7 +20,7 @@
       background-color: #000;
       padding-top: 20px;
       padding-bottom: 20px;
-      position: static; /* 修改为 static */
+      position: static;
       z-index: 999;
     }
 
@@ -26,10 +28,6 @@
       color: #fff;
       font-size: 24px;
       font-weight: bold;
-    }
-
-    .navbar-toggler-icon {
-      color: #fff;
     }
 
     .navbar-nav .nav-link {
@@ -112,35 +110,19 @@
       opacity: 1;
     }
 
-    /* 頁尾樣式 */
-    .footer {
-      background-color: #000;
-      padding: 20px 0;
+    /* 圖示樣式 */
+    .navbar-toggler-icon {
       color: #fff;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    /* 回到頁首箭頭 */
-    .back-to-top {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      width: 40px;
-      height: 40px;
-      background-color: #000;
-      color: #fff;
-      text-align: center;
-      line-height: 40px;
-      font-size: 20px;
-      border-radius: 50%;
+      font-size: 24px;
       cursor: pointer;
-      z-index: 999;
-      transition: background-color 0.3s;
     }
 
-    .back-to-top:hover {
-      background-color: #333;
+    /* 媒體查詢 */
+    @media (max-width: 767px) {
+      .navbar-nav .nav-link {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
     }
   </style>
 </head>
@@ -149,20 +131,17 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container">
       <a class="navbar-brand" href="#">養殖漁業大數據共享平台</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#intro">介紹</a>
+            <a class="nav-link" href="#intro">簡介</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#team">團隊介紹</a>
+            <a class="nav-link" href="#team">團隊</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#platform">水產養殖池邊價平台</a>
+            <a class="nav-link" href="#platform">平台</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#contact">聯絡我們</a>
@@ -174,79 +153,52 @@
 
   <section id="intro" class="section">
     <div class="container">
-      <h2>養殖漁業大數據共享平台</h2>
-      <p>我們為非營利平台，希望透過來自各地的養殖戶資料互相分享的精神，在匿名分享資料但後台可監督的方式下交流資訊，達到互利。我們會分階段推出不同主題的平台，且會分區在不同地方進行運作，目前「水產養殖池邊價平台」已經在屏東區試營運。</p>
+      <h2>歡迎來到養殖漁業大數據共享平台</h2>
+      <p>本平台致力於收集、分析和分享養殖漁業相關的大數據，以提供給漁民、研究人員和政策制定者更多的資訊和洞察，並促進養殖漁業的可持續發展。</p>
+      <a href="#" class="btn">了解更多</a>
     </div>
   </section>
 
   <section id="team" class="section">
     <div class="container">
-      <h2>團隊介紹</h2>
-      <p>「創辦人」李文太曾任職於廣達電腦七年的資深軟體工程師，返鄉接手家裡養殖漁業，期望利用自身專業解決養殖業目前遇到的問題；「資訊長」沈義明曾任職於緯創的資深軟體工程師，也是返鄉的養殖二代，與創辦人有共同的信念一起靠著專業改善問題；「營運長」洪佳琪也是返鄉的養殖二代，以她長年在烘培業的經驗導入管理平台。</p>
+      <h2>我們的團隊</h2>
+      <p>我們是一個由專業的漁業科學家、數據分析師和軟體工程師組成的團隊，致力於養殖漁業大數據的研究和應用。</p>
+      <a href="#" class="btn">認識團隊</a>
     </div>
   </section>
 
   <section id="platform" class="section">
     <div class="container">
-      <h2>水產養殖池邊價平台</h2>
-      <p>為了解決養殖漁民每次在賣魚給盤商時無法即時知道目前正確的行情價，且也因為資訊的不對稱造成漁民的獲利上的損失。我們利用平台宗旨實現在池邊價這個主題，目前在屏東區已經正式上架試營運，會員目前為133人，目前運作順利，也爭對問題逐步優化。</p>
+      <h2>我們的平台</h2>
+      <p>我們的平台提供各種工具和資源，讓用戶可以輕鬆地存取、查詢和分析養殖漁業的大數據。</p>
+      <a href="#" class="btn">了解平台</a>
     </div>
   </section>
 
   <section id="contact" class="section">
     <div class="container">
       <h2>聯絡我們</h2>
-      <p>E-MAIL: sungypsy420@gmail.com</p>
+      <p>如果您有任何問題或意見，歡迎隨時與我們聯絡。</p>
+      <a href="#" class="btn">聯絡我們</a>
     </div>
   </section>
 
-  <a href="#" class="back-to-top">&#8593;</a>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   <script>
-    $(document).ready(function () {
-      // Add smooth scrolling to all links
-      $("a").on('click', function (event) {
-        if (this.hash !== "") {
-          event.preventDefault();
-          var hash = this.hash;
-          $('html, body').animate({
-            scrollTop: $(hash).offset().top
-          }, 800, function () {
-            window.location.hash = hash;
-          });
+    // 淡入效果
+    $(window).scroll(function () {
+      $(".fade-in").each(function () {
+        var position = $(this).offset().top;
+        var topOfWindow = $(window).scrollTop();
+        if (position < topOfWindow + $(window).height() - 100) {
+          $(this).addClass("visible");
         }
       });
+    });
 
-      // Show or hide the back-to-top button
-      $(window).scroll(function () {
-        if ($(this).scrollTop() > 200) {
-          $('.back-to-top').fadeIn();
-        } else {
-          $('.back-to-top').fadeOut();
-        }
-      });
-
-      // Smooth scroll to top
-      $('.back-to-top').click(function () {
-        $('html, body').animate({
-          scrollTop: 0
-        }, 800);
-        return false;
-      });
-
-      // Fade in sections on scroll
-      $(window).scroll(function () {
-        $('.fade-in').each(function () {
-          var top = $(this).offset().top;
-          var scroll = $(window).scrollTop();
-          var windowHeight = $(window).height();
-          if (scroll > top - windowHeight + 200) {
-            $(this).addClass('visible');
-          }
-        });
-      });
+    // 導覽列收縮功能
+    $(".navbar-toggler-icon").click(function () {
+      $(".navbar-collapse").toggleClass("show");
     });
   </script>
 </body>
