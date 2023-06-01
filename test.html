@@ -102,6 +102,10 @@
         <input type="text" id="魚池名稱" oninput="計算出貨記帳()">
       </div>
       <div class="input-group">
+        <label for="一斤價格">一斤價格：</label>
+        <input type="number" id="一斤價格" oninput="計算出貨記帳()">
+      </div>
+      <div class="input-group">
         <label for="出貨水重比">水重比：</label>
         <input type="number" id="出貨水重比" value="0.98" oninput="計算出貨記帳()">
       </div>
@@ -126,6 +130,10 @@
       <div class="results">
         <label for="實際重量">實際重量(台斤)【扣桶子和水重】：</label>
         <span id="實際重量結果"></span>
+      </div>
+      <div class="input-group">
+        <label for="總金額">總金額(元)：</label>
+        <span id="總金額結果"></span>
       </div>
       <div class="report-button">
         <button onclick="生成報表()">產出報表</button>
@@ -192,6 +200,7 @@
       var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
       var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
       var 單筆重量集合 = document.getElementsByClassName("單筆重量");
+      var 一斤價格 = parseFloat(document.getElementById("一斤價格").value);
       var 總重量 = 0;
 
       for (var i = 0; i < 單筆重量集合.length; i++) {
@@ -200,9 +209,10 @@
       }
 
       var 實際重量 = (總重量 - 出貨桶子重) * 出貨水重比;
-
+      var 總金額 = 實際重量 * 一斤價格;
       document.getElementById("總重量結果").textContent = 總重量.toFixed(1);
       document.getElementById("實際重量結果").textContent = 實際重量.toFixed(1);
+      document.getElementById("總金額結果").textContent = 總金額.toFixed(1);
     }
 
     function 生成報表() {
@@ -213,11 +223,13 @@
 
       var 魚販名 = document.getElementById("魚販名").value;
       var 魚池名稱 = document.getElementById("魚池名稱").value;
+      var 一斤價格 = parseFloat(document.getElementById("一斤價格").value);
       var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
       var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
       var 單筆重量集合 = document.getElementsByClassName("單筆重量");
       var 出貨總重量 = parseFloat(document.getElementById("總重量結果").textContent);
       var 出貨實際重量 = parseFloat(document.getElementById("實際重量結果").textContent);
+      var 總金額 = parseFloat(document.getElementById("總金額結果").textContent);
 
       var report = "打尾統計:\n" +
         "桶子重：" + 打尾桶子重.toFixed(0) + "台斤\n" +
@@ -228,6 +240,7 @@
         "日期：" + 日期選擇.value + "\n" +
         "魚販：" + 魚販名 + "\n" +
         "魚池名稱：" + 魚池名稱 + "\n" +
+        "一斤價格" + 一斤價格.toFixed(0) + "元\n" +
         "水重比：" + 出貨水重比.toFixed(2) + "\n" +
         "桶子重：" + 出貨桶子重.toFixed(0) + "台斤\n" +
         "單筆重量(台斤)：" + "\n";
@@ -238,8 +251,9 @@
       }
 
       report += "\n" +
-        "總重量：" + 出貨總重量.toFixed(1) + "\n" +
-        "實際重量(扣桶扣水)：" + 出貨實際重量.toFixed(1);
+        "總重量：" + 出貨總重量.toFixed(1) + "台斤\n" +
+        "實際重量(扣桶扣水)：" + 出貨實際重量.toFixed(1)+"台斤\n"+
+        "總金額：" + 總金額.toFixed(0) + "元\n" ;
 
       var reportBlob = new Blob([report], { type: 'text/plain' });
       var reportURL = URL.createObjectURL(reportBlob);
@@ -259,9 +273,11 @@
     var 日期選擇 = document.getElementById("日期選擇").value;
     var 魚販名 = document.getElementById("魚販名").value;
     var 魚池名稱 = document.getElementById("魚池名稱").value;
+    var 一斤價格 = parseFloat(document.getElementById("一斤價格").value);
     var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
     var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
     var 單筆重量集合 = document.getElementsByClassName("單筆重量");
+    var 總金額結果 = parseFloat(document.getElementById("總金額結果").textContent);
     var 總重量 = 0;
 
     for (var i = 0; i < 單筆重量集合.length; i++) {
@@ -280,10 +296,12 @@
       ["日期", 日期選擇],
       ["魚販", 魚販名],
       ["魚池名稱", 魚池名稱],
+      ["一斤價格", 一斤價格],
       ["水重比", 出貨水重比],
       ["桶子重", 出貨桶子重],
       ["總重量", 總重量],
       ["實際重量(扣桶扣水)", 出貨實際重量],
+      ["總金額", 總金額結果],
       ["筆數","單筆重量"],
     ]);
 
