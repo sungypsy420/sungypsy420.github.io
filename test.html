@@ -260,7 +260,7 @@
 
       var reportLink = document.createElement('a');
       reportLink.href = reportURL;
-      reportLink.download = '出貨報表.txt';
+      reportLink.download = 日期選擇.value+魚池名稱+'午仔魚出貨報表.txt';
       reportLink.click();
     }
     function 生成Excel報表() {
@@ -268,7 +268,7 @@
     var 總隻數 = parseFloat(document.getElementById("總隻數").value);
     var 總重量 = parseFloat(document.getElementById("重量").value);
     var 出貨實際重量 = parseFloat(document.getElementById("實際重量結果").textContent);
-    var 單支平均重量 = ((重量 - 桶子重) / 總隻數) * 16;
+    var 打尾單支平均重量 = parseFloat(document.getElementById("單支平均重量結果").textContent);
 
     var 日期選擇 = document.getElementById("日期選擇").value;
     var 魚販名 = document.getElementById("魚販名").value;
@@ -290,7 +290,7 @@
       ["打尾統計"],
       ["桶子重", 桶子重],
       ["總隻數", 總隻數],
-      ["單支平均重量", 單支平均重量],
+      ["單支平均重量", 打尾單支平均重量],
       [],
       ["出貨記帳統計"],
       ["日期", 日期選擇],
@@ -310,7 +310,7 @@
       XLSX.utils.sheet_add_aoa(worksheet, [[(i + 1),單筆重量]], { origin: {r:-1,c:0 }});
     }
 
-    XLSX.utils.book_append_sheet(workbook, worksheet, "報表");
+    XLSX.utils.book_append_sheet(workbook, worksheet, 日期選擇+魚池名稱+"午仔魚報表");
 
     var wbout = XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
 
@@ -323,7 +323,7 @@
 
     saveAs(
       new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
-      "報表.xlsx"
+      日期選擇+魚池名稱+"午仔魚報表.xlsx"
     );
   }
   </script>
