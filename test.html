@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>出貨記帳</title>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .navigation {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .navigation a {
+      margin: 10px;
+      text-decoration: none;
+    }
+
+    .input-group {
+      margin-bottom: 10px;
+    }
+
+    .input-group label {
+      display: inline-block;
+      width: 150px;
+    }
+
+    .input-group input {
+      width: 150px;
+    }
+
+    .results {
+      margin-top: 20px;
+    }
+
+    .report-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>出貨記帳</h1>
+
+  <div class="container">
+    <div class="navigation">
+      <a href="#打尾">打尾</a>
+      <a href="#出貨記帳">出貨記帳</a>
+    </div>
+
+    <div id="打尾" class="section">
+        <h2>打尾</h2>
+        <div class="input-group">
+          <label for="水重比">水重比：</label>
+          <input type="number" id="水重比" value="0.98" oninput="計算打尾()">
+        </div>
+        <div class="input-group">
+          <label for="桶子重">桶子重：</label>
+          <input type="number" id="桶子重" oninput="計算打尾()">
+        </div>
+        <div class="input-group">
+          <label for="總隻數">總隻數：</label>
+          <input type="number" id="總隻數" oninput="計算打尾()">
+        </div>
+        <div class="input-group">
+          <label for="總重量">總重量：</label>
+          <input type="number" id="總重量" oninput="計算打尾()">
+        </div>
+        <div class="results">
+          <label for="單支平均重量">單支平均重量：</label>
+          <span id="單支平均重量結果"></span>
+        </div>
+      </div>
+      
+
+    <div id="出貨記帳" class="section">
+      <h2>出貨記帳</h2>
+      <div class="input-group">
+        <label for="出貨水重比">水重比：</label>
+        <input type="number" id="出貨水重比" value="0.98" oninput="計算出貨記帳()">
+      </div>
+      <div class="input-group">
+        <label for="出貨桶子重">桶子重：</label>
+        <input type="number" id="出貨桶子重" oninput="計算出貨記帳()">
+      </div>
+      <div id="單筆重量區域">
+        <div class="input-group">
+          <label for="單筆重量1">1. 單筆重量：</label>
+          <input type="number" class="單筆重量" id="單筆重量1" oninput="計算出貨記帳()">
+          <button onclick="新增單筆重量()">新增一筆</button>
+        </div>
+      </div>
+      <div class="results">
+        <label for="總重量">總重量：</label>
+        <span id="總重量結果"></span>
+      </div>
+      <div class="results">
+        <label for="實際重量">實際重量(扣桶扣水)：</label>
+        <span id="實際重量結果"></span>
+      </div>
+      <div class="report-button">
+        <button onclick="生成報表()">產出報表</button>
+      </div>
+      <div class="report-button">
+        <button onclick="生成Excel報表()">產出 Excel 報表</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function 計算打尾() {
+      var 水重比 = parseFloat(document.getElementById("水重比").value);
+      var 桶子重 = parseFloat(document.getElementById("桶子重").value);
+      var 總隻數 = parseFloat(document.getElementById("總隻數").value);
+      var 總重量 = parseFloat(document.getElementById("總重量").value);
+      var 單支平均重量 = ((總重量 - 桶子重) / 總隻數) * 16;
+
+      document.getElementById("單支平均重量結果").textContent = 單支平均重量.toFixed(2);
+    }
+
+    function 新增單筆重量() {
+      var 單筆重量區域 = document.getElementById("單筆重量區域");
+      var 新單筆編號 = 單筆重量區域.getElementsByClassName("單筆重量").length + 1;
+
+      var 新單筆區域 = document.createElement("div");
+      新單筆區域.className = "input-group";
+
+      var 新單筆標籤 = document.createElement("label");
+      新單筆標籤.textContent = 新單筆編號 + ". 單筆重量：";
+      新單筆區域.appendChild(新單筆標籤);
+
+      var 新單筆輸入框 = document.createElement("input");
+      新單筆輸入框.type = "number";
+      新單筆輸入框.className = "單筆重量";
+      新單筆輸入框.id = "單筆重量" + 新單筆編號;
+      新單筆輸入框.oninput = 計算出貨記帳;
+      新單筆區域.appendChild(新單筆輸入框);
+
+      var 新增按鈕 = document.createElement("button");
+      新增按鈕.textContent = "新增一筆";
+      新增按鈕.onclick = 新增單筆重量;
+      新單筆區域.appendChild(新增按鈕);
+
+      單筆重量區域.appendChild(新單筆區域);
+    }
+
+    function 計算出貨記帳() {
+      var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
+      var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
+      var 單筆重量集合 = document.getElementsByClassName("單筆重量");
+      var 總重量 = 0;
+
+      for (var i = 0; i < 單筆重量集合.length; i++) {
+        var 單筆重量 = parseFloat(單筆重量集合[i].value);
+        總重量 += 單筆重量;
+      }
+
+      var 實際重量 = (總重量 - 出貨桶子重) * 出貨水重比;
+
+      document.getElementById("總重量結果").textContent = 總重量.toFixed(2);
+      document.getElementById("實際重量結果").textContent = 實際重量.toFixed(2);
+    }
+
+    function 生成報表() {
+      var 打尾水重比 = parseFloat(document.getElementById("水重比").value);
+      var 打尾桶子重 = parseFloat(document.getElementById("桶子重").value);
+      var 打尾總隻數 = parseFloat(document.getElementById("總隻數").value);
+      var 打尾總重量 = parseFloat(document.getElementById("總重量").value);
+      var 打尾單支平均重量 = parseFloat(document.getElementById("單支平均重量結果").textContent);
+
+      var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
+      var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
+      var 單筆重量集合 = document.getElementsByClassName("單筆重量");
+      var 出貨總重量 = parseFloat(document.getElementById("總重量結果").textContent);
+      var 出貨實際重量 = parseFloat(document.getElementById("實際重量結果").textContent);
+
+      var report = "打尾統計:\n" +
+        "水重比：" + 打尾水重比.toFixed(2) + "\n" +
+        "桶子重：" + 打尾桶子重.toFixed(2) + "\n" +
+        "總隻數：" + 打尾總隻數.toFixed(2) + "\n" +
+        "總重量：" + 打尾總重量.toFixed(2) + "\n" +
+        "單支平均重量：" + 打尾單支平均重量.toFixed(2) + "\n\n" +
+        "出貨記帳統計:\n" +
+        "水重比：" + 出貨水重比.toFixed(2) + "\n" +
+        "桶子重：" + 出貨桶子重.toFixed(2) + "\n" +
+        "單筆重量：" + "\n";
+
+      for (var i = 0; i < 單筆重量集合.length; i++) {
+        var 單筆重量 = parseFloat(單筆重量集合[i].value);
+        report += (i + 1) + ". " + 單筆重量.toFixed(2) + "\n";
+      }
+
+      report += "\n" +
+        "總重量：" + 出貨總重量.toFixed(2) + "\n" +
+        "實際重量(扣桶扣水)：" + 出貨實際重量.toFixed(2);
+
+      var reportBlob = new Blob([report], { type: 'text/plain' });
+      var reportURL = URL.createObjectURL(reportBlob);
+
+      var reportLink = document.createElement('a');
+      reportLink.href = reportURL;
+      reportLink.download = '出貨報表.txt';
+      reportLink.click();
+    }
+    function 生成Excel報表() {
+    var 水重比 = parseFloat(document.getElementById("水重比").value);
+    var 桶子重 = parseFloat(document.getElementById("桶子重").value);
+    var 總隻數 = parseFloat(document.getElementById("總隻數").value);
+    var 總重量 = parseFloat(document.getElementById("總重量").value);
+    var 單支平均重量 = ((總重量 - 桶子重) / 總隻數) * 16;
+
+    var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
+    var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
+    var 單筆重量集合 = document.getElementsByClassName("單筆重量");
+    var 總重量 = 0;
+
+    for (var i = 0; i < 單筆重量集合.length; i++) {
+      var 單筆重量 = parseFloat(單筆重量集合[i].value);
+      總重量 += 單筆重量;
+    }
+
+    var workbook = XLSX.utils.book_new();
+    var worksheet = XLSX.utils.aoa_to_sheet([
+      ["打尾統計"],
+      ["水重比", 水重比],
+      ["桶子重", 桶子重],
+      ["總隻數", 總隻數],
+      ["總重量", 總重量],
+      ["單支平均重量", 單支平均重量],
+      [],
+      ["出貨記帳統計"],
+      ["水重比", 出貨水重比],
+      ["桶子重", 出貨桶子重],
+      ["單筆重量"],
+    ]);
+
+    for (var i = 0; i < 單筆重量集合.length; i++) {
+      var 單筆重量 = parseFloat(單筆重量集合[i].value);
+      XLSX.utils.sheet_add_aoa(worksheet, [[(i + 1) + ". " + 單筆重量]], { origin: -1 });
+    }
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "報表");
+
+    var wbout = XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+
+    function s2ab(s) {
+      var buf = new ArrayBuffer(s.length);
+      var view = new Uint8Array(buf);
+      for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
+      return buf;
+    }
+
+    saveAs(
+      new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
+      "報表.xlsx"
+    );
+  }
+  </script>
+</body>
+</html>
