@@ -74,8 +74,8 @@
           <input type="number" id="總隻數" oninput="計算打尾()">
         </div>
         <div class="input-group">
-          <label for="總重量">總重量(台斤)：</label>
-          <input type="number" id="總重量" oninput="計算打尾()">
+          <label for="重量">重量(台斤)：</label>
+          <input type="number" id="重量" oninput="計算打尾()">
         </div>
         <div class="results">
           <label for="單支平均重量">單支平均重量(兩)：</label>
@@ -92,6 +92,14 @@
           <input type="date" id="日期選擇" name="日期選擇">
 
         </form> 
+      </div>
+      <div class="input-group">
+        <label for="魚販名">魚販：</label>
+        <input type="text" id="魚販名" oninput="計算出貨記帳()">
+      </div>
+      <div class="input-group">
+        <label for="魚池名稱">魚池名稱：</label>
+        <input type="text" id="魚池名稱" oninput="計算出貨記帳()">
       </div>
       <div class="input-group">
         <label for="出貨水重比">水重比：</label>
@@ -139,8 +147,8 @@
     function 計算打尾() {
       var 桶子重 = parseFloat(document.getElementById("桶子重").value);
       var 總隻數 = parseFloat(document.getElementById("總隻數").value);
-      var 總重量 = parseFloat(document.getElementById("總重量").value);
-      var 單支平均重量 = ((總重量 - 桶子重) / 總隻數) * 16;
+      var 重量 = parseFloat(document.getElementById("重量").value);
+      var 單支平均重量 = ((重量 - 桶子重) / 總隻數) * 16;
 
       document.getElementById("單支平均重量結果").textContent = 單支平均重量.toFixed(2);
     }
@@ -200,9 +208,11 @@
     function 生成報表() {
       var 打尾桶子重 = parseFloat(document.getElementById("桶子重").value);
       var 打尾總隻數 = parseFloat(document.getElementById("總隻數").value);
-      var 打尾總重量 = parseFloat(document.getElementById("總重量").value);
+      var 打尾總重量 = parseFloat(document.getElementById("重量").value);
       var 打尾單支平均重量 = parseFloat(document.getElementById("單支平均重量結果").textContent);
 
+      var 魚販名 = document.getElementById("魚販名").value;
+      var 魚池名稱 = document.getElementById("魚池名稱").value;
       var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
       var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
       var 單筆重量集合 = document.getElementsByClassName("單筆重量");
@@ -212,10 +222,12 @@
       var report = "打尾統計:\n" +
         "桶子重：" + 打尾桶子重.toFixed(0) + "台斤\n" +
         "總隻數：" + 打尾總隻數.toFixed(0) + "隻\n" +
-        "總重量：" + 打尾總重量.toFixed(0) + "台斤\n" +
+        "重量：" + 打尾總重量.toFixed(0) + "台斤\n" +
         "單支平均重量：" + 打尾單支平均重量.toFixed(2) + "兩\n\n" +
         "出貨記帳統計:\n" +
         "日期：" + 日期選擇.value + "\n" +
+        "魚販：" + 魚販名 + "\n" +
+        "魚池名稱：" + 魚池名稱 + "\n" +
         "水重比：" + 出貨水重比.toFixed(2) + "\n" +
         "桶子重：" + 出貨桶子重.toFixed(0) + "台斤\n" +
         "單筆重量(台斤)：" + "\n";
@@ -240,10 +252,13 @@
     function 生成Excel報表() {
     var 桶子重 = parseFloat(document.getElementById("桶子重").value);
     var 總隻數 = parseFloat(document.getElementById("總隻數").value);
-    var 總重量 = parseFloat(document.getElementById("總重量").value);
-    var 單支平均重量 = ((總重量 - 桶子重) / 總隻數) * 16;
+    var 總重量 = parseFloat(document.getElementById("重量").value);
+    var 出貨實際重量 = parseFloat(document.getElementById("實際重量結果").textContent);
+    var 單支平均重量 = ((重量 - 桶子重) / 總隻數) * 16;
 
     var 日期選擇 = document.getElementById("日期選擇").value;
+    var 魚販名 = document.getElementById("魚販名").value;
+    var 魚池名稱 = document.getElementById("魚池名稱").value;
     var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
     var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
     var 單筆重量集合 = document.getElementsByClassName("單筆重量");
@@ -259,13 +274,16 @@
       ["打尾統計"],
       ["桶子重", 桶子重],
       ["總隻數", 總隻數],
-      ["總重量", 總重量],
       ["單支平均重量", 單支平均重量],
       [],
       ["出貨記帳統計"],
       ["日期", 日期選擇],
+      ["魚販", 魚販名],
+      ["魚池名稱", 魚池名稱],
       ["水重比", 出貨水重比],
       ["桶子重", 出貨桶子重],
+      ["總重量", 總重量],
+      ["實際重量(扣桶扣水)", 出貨實際重量],
       ["筆數","單筆重量"],
     ]);
 
