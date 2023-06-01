@@ -102,8 +102,11 @@
         <div class="input-group">
           <label for="單筆重量1">1. 單筆重量：</label>
           <input type="number" class="單筆重量" id="單筆重量1" oninput="計算出貨記帳()">
-          <button onclick="新增單筆重量()">新增一筆</button>
+          <button onclick="刪除單筆重量(this)">刪除</button> <!-- 新增刪除按钮 -->
         </div>
+      </div>
+      <div class="report-button">
+      <button onclick="新增單筆重量()">新增一筆</button>
       </div>
       <div class="results">
         <label for="總重量">總重量：</label>
@@ -133,6 +136,12 @@
       document.getElementById("單支平均重量結果").textContent = 單支平均重量.toFixed(2);
     }
 
+    function 刪除單筆重量(button) {
+    var 單筆重量區域 = document.getElementById("單筆重量區域");
+    單筆重量區域.removeChild(button.parentNode);
+    計算出貨記帳(); // 重新计算出货记账
+    }
+
     function 新增單筆重量() {
       var 單筆重量區域 = document.getElementById("單筆重量區域");
       var 新單筆編號 = 單筆重量區域.getElementsByClassName("單筆重量").length + 1;
@@ -152,12 +161,15 @@
       新單筆區域.appendChild(新單筆輸入框);
 
       var 新增按鈕 = document.createElement("button");
-      新增按鈕.textContent = "新增一筆";
-      新增按鈕.onclick = 新增單筆重量;
+      新增按鈕.textContent = "刪除";
+      新增按鈕.onclick = function() {
+      刪除單筆重量(this);
+    };
       新單筆區域.appendChild(新增按鈕);
 
       單筆重量區域.appendChild(新單筆區域);
     }
+
 
     function 計算出貨記帳() {
       var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
