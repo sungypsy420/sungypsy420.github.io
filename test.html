@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>出貨記帳</title>
+  <title>午仔魚池邊價出貨記帳</title>
   <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
   <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
 </head>
@@ -55,7 +55,7 @@
   </style>
 </head>
 <body>
-  <h1>出貨記帳</h1>
+  <h1>午仔魚 ╴池邊價出貨記帳</h1>
 
   <div class="container">
     <div class="navigation">
@@ -66,11 +66,7 @@
     <div id="打尾" class="section">
         <h2>打尾</h2>
         <div class="input-group">
-          <label for="水重比">水重比：</label>
-          <input type="number" id="水重比" value="0.98" oninput="計算打尾()">
-        </div>
-        <div class="input-group">
-          <label for="桶子重">桶子重：</label>
+          <label for="桶子重">桶子重(台斤)：</label>
           <input type="number" id="桶子重" oninput="計算打尾()">
         </div>
         <div class="input-group">
@@ -78,11 +74,11 @@
           <input type="number" id="總隻數" oninput="計算打尾()">
         </div>
         <div class="input-group">
-          <label for="總重量">總重量：</label>
+          <label for="總重量">總重量(台斤)：</label>
           <input type="number" id="總重量" oninput="計算打尾()">
         </div>
         <div class="results">
-          <label for="單支平均重量">單支平均重量：</label>
+          <label for="單支平均重量">單支平均重量(兩)：</label>
           <span id="單支平均重量結果"></span>
         </div>
       </div>
@@ -90,12 +86,19 @@
 
     <div id="出貨記帳" class="section">
       <h2>出貨記帳</h2>
+      <div class="input-group">    
+        <form>
+          <label for="日期選擇">選擇日期：</label>
+          <input type="date" id="日期選擇" name="日期選擇">
+
+        </form> 
+      </div>
       <div class="input-group">
         <label for="出貨水重比">水重比：</label>
         <input type="number" id="出貨水重比" value="0.98" oninput="計算出貨記帳()">
       </div>
       <div class="input-group">
-        <label for="出貨桶子重">桶子重：</label>
+        <label for="出貨桶子重">桶子重(台斤)：</label>
         <input type="number" id="出貨桶子重" oninput="計算出貨記帳()">
       </div>
       <div id="單筆重量區域">
@@ -109,11 +112,11 @@
       <button onclick="新增單筆重量()">新增一筆</button>
       </div>
       <div class="results">
-        <label for="總重量">總重量：</label>
+        <label for="總重量">總重量(台斤)：</label>
         <span id="總重量結果"></span>
       </div>
       <div class="results">
-        <label for="實際重量">實際重量(扣桶扣水)：</label>
+        <label for="實際重量">實際重量(台斤)【扣桶子和水重】：</label>
         <span id="實際重量結果"></span>
       </div>
       <div class="report-button">
@@ -126,8 +129,14 @@
   </div>
 
   <script>
+    function 取得選擇的日期() {
+      var 日期選擇 = document.getElementById("日期選擇").value;
+      var 選擇的日期 = 日期選擇.value;
+
+      console.log(選擇的日期);
+      // 在这里可以进一步处理所选日期的值
+  }
     function 計算打尾() {
-      var 水重比 = parseFloat(document.getElementById("水重比").value);
       var 桶子重 = parseFloat(document.getElementById("桶子重").value);
       var 總隻數 = parseFloat(document.getElementById("總隻數").value);
       var 總重量 = parseFloat(document.getElementById("總重量").value);
@@ -184,12 +193,11 @@
 
       var 實際重量 = (總重量 - 出貨桶子重) * 出貨水重比;
 
-      document.getElementById("總重量結果").textContent = 總重量.toFixed(2);
-      document.getElementById("實際重量結果").textContent = 實際重量.toFixed(2);
+      document.getElementById("總重量結果").textContent = 總重量.toFixed(1);
+      document.getElementById("實際重量結果").textContent = 實際重量.toFixed(1);
     }
 
     function 生成報表() {
-      var 打尾水重比 = parseFloat(document.getElementById("水重比").value);
       var 打尾桶子重 = parseFloat(document.getElementById("桶子重").value);
       var 打尾總隻數 = parseFloat(document.getElementById("總隻數").value);
       var 打尾總重量 = parseFloat(document.getElementById("總重量").value);
@@ -202,24 +210,24 @@
       var 出貨實際重量 = parseFloat(document.getElementById("實際重量結果").textContent);
 
       var report = "打尾統計:\n" +
-        "水重比：" + 打尾水重比.toFixed(2) + "\n" +
-        "桶子重：" + 打尾桶子重.toFixed(2) + "\n" +
-        "總隻數：" + 打尾總隻數.toFixed(2) + "\n" +
-        "總重量：" + 打尾總重量.toFixed(2) + "\n" +
-        "單支平均重量：" + 打尾單支平均重量.toFixed(2) + "\n\n" +
+        "桶子重：" + 打尾桶子重.toFixed(0) + "台斤\n" +
+        "總隻數：" + 打尾總隻數.toFixed(0) + "隻\n" +
+        "總重量：" + 打尾總重量.toFixed(0) + "台斤\n" +
+        "單支平均重量：" + 打尾單支平均重量.toFixed(2) + "兩\n\n" +
         "出貨記帳統計:\n" +
+        "日期：" + 日期選擇.value + "\n" +
         "水重比：" + 出貨水重比.toFixed(2) + "\n" +
-        "桶子重：" + 出貨桶子重.toFixed(2) + "\n" +
-        "單筆重量：" + "\n";
+        "桶子重：" + 出貨桶子重.toFixed(0) + "台斤\n" +
+        "單筆重量(台斤)：" + "\n";
 
       for (var i = 0; i < 單筆重量集合.length; i++) {
         var 單筆重量 = parseFloat(單筆重量集合[i].value);
-        report += (i + 1) + ". " + 單筆重量.toFixed(2) + "\n";
+        report += (i + 1) + ". " + 單筆重量.toFixed(0) + "\n";
       }
 
       report += "\n" +
-        "總重量：" + 出貨總重量.toFixed(2) + "\n" +
-        "實際重量(扣桶扣水)：" + 出貨實際重量.toFixed(2);
+        "總重量：" + 出貨總重量.toFixed(1) + "\n" +
+        "實際重量(扣桶扣水)：" + 出貨實際重量.toFixed(1);
 
       var reportBlob = new Blob([report], { type: 'text/plain' });
       var reportURL = URL.createObjectURL(reportBlob);
@@ -230,12 +238,12 @@
       reportLink.click();
     }
     function 生成Excel報表() {
-    var 水重比 = parseFloat(document.getElementById("水重比").value);
     var 桶子重 = parseFloat(document.getElementById("桶子重").value);
     var 總隻數 = parseFloat(document.getElementById("總隻數").value);
     var 總重量 = parseFloat(document.getElementById("總重量").value);
     var 單支平均重量 = ((總重量 - 桶子重) / 總隻數) * 16;
 
+    var 日期選擇 = document.getElementById("日期選擇").value;
     var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
     var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
     var 單筆重量集合 = document.getElementsByClassName("單筆重量");
@@ -249,21 +257,21 @@
     var workbook = XLSX.utils.book_new();
     var worksheet = XLSX.utils.aoa_to_sheet([
       ["打尾統計"],
-      ["水重比", 水重比],
       ["桶子重", 桶子重],
       ["總隻數", 總隻數],
       ["總重量", 總重量],
       ["單支平均重量", 單支平均重量],
       [],
       ["出貨記帳統計"],
+      ["日期", 日期選擇],
       ["水重比", 出貨水重比],
       ["桶子重", 出貨桶子重],
-      ["單筆重量"],
+      ["筆數","單筆重量"],
     ]);
 
     for (var i = 0; i < 單筆重量集合.length; i++) {
       var 單筆重量 = parseFloat(單筆重量集合[i].value);
-      XLSX.utils.sheet_add_aoa(worksheet, [[(i + 1) + ". " + 單筆重量]], { origin: -1 });
+      XLSX.utils.sheet_add_aoa(worksheet, [[(i + 1),單筆重量]], { origin: {r:-1,c:0 }});
     }
 
     XLSX.utils.book_append_sheet(workbook, worksheet, "報表");
