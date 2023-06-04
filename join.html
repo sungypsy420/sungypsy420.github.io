@@ -1,124 +1,346 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>加入平台</title>
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-  <script src="bootstrap/js/bootstrap.bundle.min.js"></script>  
+  <title>午仔魚池邊價出貨記帳</title>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    /* 共用樣式 */
     body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      position: relative;
-      margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
     }
 
     .container {
       max-width: 600px;
       margin: 0 auto;
-      padding: 20px;
     }
 
-    /* 頁面樣式 */
-    h1 {
-      font-size: 36px;
-      font-weight: bold;
-      margin-bottom: 30px;
+    .navigation {
       text-align: center;
-      color: #fff; /* 白色文字 */
-      background-color: #000; /* 黑色背景 */
-      padding: 10px;
+      margin-bottom: 20px;
     }
 
-    p {
-      font-size: 18px;
-      line-height: 1.5;
-      margin-bottom: 30px;
-      text-align: center;
-    }
-
-    /* 按鈕樣式 */
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #000;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
+    .navigation a {
+      margin: 10px;
       text-decoration: none;
     }
 
-    .button:hover {
-      background-color: #333;
+    .input-group {
+      margin-bottom: 10px;
     }
 
-    .button.disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
+    .input-group label {
+      display: inline-block;
+      width: 150px;
     }
 
-    .button-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .input-group input {
+      width: 150px;
+    }
+
+    .results {
       margin-top: 20px;
     }
 
-    .button-container .disabled-message {
-      font-size: 16px;
-      color: #999;
+    .report-button {
+      margin-top: 20px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
+  <h1 class="display-4">午仔魚 ╴池邊價出貨記帳</h1>
+
   <div class="container">
-    <h1>加入水產池邊價平台</h1>
-    <p>點選你所在地區去了解加入辦法</p>
-    <div class="button-container">
-        <a class="button" href="pt_platform.html" onclick="joinPlatform('屏東區')">屏東區水產池邊價平台</a>
-      </div>
-      <div class="button-container">
-        <span class="button disabled">高雄區水產池邊價平台</span>
-        <span class="disabled-message">規劃中</span>
-      </div>
-      <div class="button-container">
-        <span class="button disabled">台南區水產池邊價平台</span>
-        <span class="disabled-message">規劃中</span>
-      </div>
-      <div class="button-container">
-        <span class="button disabled">嘉義區水產池邊價平台</span>
-        <span class="disabled-message">規劃中</span>
-      </div>
-      <div class="button-container">
-        <span class="button disabled">雲林區水產池邊價平台</span>
-        <span class="disabled-message">規劃中</span>
-      </div>
-      <div class="button-container">
-        <span class="button disabled">台東區水產池邊價平台</span>
-        <span class="disabled-message">規劃中</span>
-      </div>
-      <div class="button-container">
-        <span class="button disabled">宜蘭區水產池邊價平台</span>
-        <span class="disabled-message">規劃中</span>
+    <div class="navigation">
+      <a href="#打尾">打尾</a>
+      <a href="#出貨記帳">出貨記帳</a>
+    </div>
+
+    <div id="打尾" class="section">
+        <h2>打尾</h2>
+        <div class="input-group">
+          <label for="桶子重">桶子重(台斤)：</label>
+          <input type="number" id="桶子重" oninput="計算打尾()">
+        </div>
+        <div class="input-group">
+          <label for="總隻數">總隻數：</label>
+          <input type="number" id="總隻數" oninput="計算打尾()">
+        </div>
+        <div class="input-group">
+          <label for="重量">重量(台斤)：</label>
+          <input type="number" id="重量" oninput="計算打尾()">
+        </div>
+        <div class="results">
+          <label for="單支平均重量">單支平均重量(兩)：</label>
+          <span id="單支平均重量結果"></span>
+        </div>
       </div>
       
-      <div class="button-container">
-        <button class="button" onclick="goToIndex()">返回首頁</button>
+
+    <div id="出貨記帳" class="section">
+      <h2>出貨記帳</h2>
+      <div class="input-group">    
+        <form>
+          <label for="日期選擇">選擇日期：</label>
+          <input type="date" id="日期選擇" name="日期選擇">
+
+        </form> 
+      </div>
+      <div class="input-group">
+        <label for="魚販名">魚販：</label>
+        <input type="text" id="魚販名" oninput="計算出貨記帳()">
+      </div>
+      <div class="input-group">
+        <label for="魚池名稱">魚池名稱：</label>
+        <input type="text" id="魚池名稱" oninput="計算出貨記帳()">
+      </div>
+      <div class="input-group">
+        <label for="一斤價格">一斤價格：</label>
+        <input type="number" id="一斤價格" oninput="計算出貨記帳()">
+      </div>
+      <div class="input-group">
+        <label for="出貨水重比">水重比：</label>
+        <input type="number" id="出貨水重比" value="0.98" oninput="計算出貨記帳()">
+      </div>
+      <div class="input-group">
+        <label for="出貨桶子重">桶子重(台斤)：</label>
+        <input type="number" id="出貨桶子重" oninput="計算出貨記帳()">
+      </div>
+      <div id="單筆重量區域">
+        <div class="input-group">
+          <label for="單筆重量1">1. 單筆重量：</label>
+          <input type="number" class="單筆重量" id="單筆重量1" oninput="計算出貨記帳()">
+          <button onclick="刪除單筆重量(this)">刪除</button> <!-- 新增刪除按钮 -->
+        </div>
+      </div>
+      <div class="report-button">
+      <button onclick="新增單筆重量()">新增一筆</button>
+      </div>
+      <div class="results">
+        <label for="總重量">總重量(台斤)：</label>
+        <span id="總重量結果"></span>
+      </div>
+      <div class="results">
+        <label for="實際重量">實際重量(台斤)【扣桶子和水重】：</label>
+        <span id="實際重量結果"></span>
+      </div>
+      <div class="input-group">
+        <label for="總金額">總金額(元)：</label>
+        <span id="總金額結果"></span>
+      </div>
+      <div class="report-button">
+        <button onclick="生成報表()">產出報表</button>
+      </div>
+      <div class="report-button">
+        <button onclick="生成Excel報表()">產出 Excel 報表</button>
+      </div>
+      <div class="report-button">
+        <button onclick="生成JPG報表()">螢幕截圖報表</button>
       </div>
     </div>
-    <script>
-      function joinPlatform(area) {
-        console.log('加入' + area + '水產池邊價平台');
+  </div>
+
+  <script>
+    function 取得選擇的日期() {
+      var 日期選擇 = document.getElementById("日期選擇").value;
+      var 選擇的日期 = 日期選擇.value;
+
+      console.log(選擇的日期);
+      // 在这里可以进一步处理所选日期的值
+  }
+    function 計算打尾() {
+      var 桶子重 = parseFloat(document.getElementById("桶子重").value);
+      var 總隻數 = parseFloat(document.getElementById("總隻數").value);
+      var 重量 = parseFloat(document.getElementById("重量").value);
+      var 單支平均重量 = ((重量 - 桶子重) / 總隻數) * 16;
+
+      document.getElementById("單支平均重量結果").textContent = 單支平均重量.toFixed(2);
+    }
+
+    function 刪除單筆重量(button) {
+    var 單筆重量區域 = document.getElementById("單筆重量區域");
+    單筆重量區域.removeChild(button.parentNode);
+    計算出貨記帳(); // 重新计算出货记账
+    }
+
+    function 新增單筆重量() {
+      var 單筆重量區域 = document.getElementById("單筆重量區域");
+      var 新單筆編號 = 單筆重量區域.getElementsByClassName("單筆重量").length + 1;
+
+      var 新單筆區域 = document.createElement("div");
+      新單筆區域.className = "input-group";
+
+      var 新單筆標籤 = document.createElement("label");
+      新單筆標籤.textContent = 新單筆編號 + ". 單筆重量：";
+      新單筆區域.appendChild(新單筆標籤);
+
+      var 新單筆輸入框 = document.createElement("input");
+      新單筆輸入框.type = "number";
+      新單筆輸入框.className = "單筆重量";
+      新單筆輸入框.id = "單筆重量" + 新單筆編號;
+      新單筆輸入框.oninput = 計算出貨記帳;
+      新單筆區域.appendChild(新單筆輸入框);
+
+      var 新增按鈕 = document.createElement("button");
+      新增按鈕.textContent = "刪除";
+      新增按鈕.onclick = function() {
+      刪除單筆重量(this);
+    };
+      新單筆區域.appendChild(新增按鈕);
+
+      單筆重量區域.appendChild(新單筆區域);
+    }
+
+
+    function 計算出貨記帳() {
+      var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
+      var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
+      var 單筆重量集合 = document.getElementsByClassName("單筆重量");
+      var 一斤價格 = parseFloat(document.getElementById("一斤價格").value);
+      var 總重量 = 0;
+
+      for (var i = 0; i < 單筆重量集合.length; i++) {
+        var 單筆重量 = parseFloat(單筆重量集合[i].value);
+        總重量 += 單筆重量;
       }
-  
-      function goToIndex() {
-        window.location.href = "index.html";
+
+      var 實際重量 = (總重量 - 出貨桶子重) * 出貨水重比;
+      var 總金額 = 實際重量 * 一斤價格;
+      document.getElementById("總重量結果").textContent = 總重量.toFixed(1);
+      document.getElementById("實際重量結果").textContent = 實際重量.toFixed(1);
+      document.getElementById("總金額結果").textContent = 總金額.toFixed(1);
+    }
+
+    function 生成報表() {
+      var 打尾桶子重 = parseFloat(document.getElementById("桶子重").value);
+      var 打尾總隻數 = parseFloat(document.getElementById("總隻數").value);
+      var 打尾總重量 = parseFloat(document.getElementById("重量").value);
+      var 打尾單支平均重量 = parseFloat(document.getElementById("單支平均重量結果").textContent);
+
+      var 魚販名 = document.getElementById("魚販名").value;
+      var 魚池名稱 = document.getElementById("魚池名稱").value;
+      var 一斤價格 = parseFloat(document.getElementById("一斤價格").value);
+      var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
+      var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
+      var 單筆重量集合 = document.getElementsByClassName("單筆重量");
+      var 出貨總重量 = parseFloat(document.getElementById("總重量結果").textContent);
+      var 出貨實際重量 = parseFloat(document.getElementById("實際重量結果").textContent);
+      var 總金額 = parseFloat(document.getElementById("總金額結果").textContent);
+
+      var report = "打尾統計:\n" +
+        "桶子重：" + 打尾桶子重.toFixed(0) + "台斤\n" +
+        "總隻數：" + 打尾總隻數.toFixed(0) + "隻\n" +
+        "重量：" + 打尾總重量.toFixed(0) + "台斤\n" +
+        "單支平均重量：" + 打尾單支平均重量.toFixed(2) + "兩\n\n" +
+        "出貨記帳統計:\n" +
+        "日期：" + 日期選擇.value + "\n" +
+        "魚販：" + 魚販名 + "\n" +
+        "魚池名稱：" + 魚池名稱 + "\n" +
+        "一斤價格" + 一斤價格.toFixed(0) + "元\n" +
+        "水重比：" + 出貨水重比.toFixed(2) + "\n" +
+        "桶子重：" + 出貨桶子重.toFixed(0) + "台斤\n" +
+        "單筆重量(台斤)：" + "\n";
+
+      for (var i = 0; i < 單筆重量集合.length; i++) {
+        var 單筆重量 = parseFloat(單筆重量集合[i].value);
+        report += (i + 1) + ". " + 單筆重量.toFixed(0) + "\n";
       }
-    </script>
-  </body>
-</html>  
+
+      report += "\n" +
+        "總重量：" + 出貨總重量.toFixed(1) + "台斤\n" +
+        "實際重量(扣桶扣水)：" + 出貨實際重量.toFixed(1)+"台斤\n"+
+        "總金額：" + 總金額.toFixed(0) + "元\n" ;
+
+      var reportBlob = new Blob([report], { type: 'text/plain' });
+      var reportURL = URL.createObjectURL(reportBlob);
+
+      var reportLink = document.createElement('a');
+      reportLink.href = reportURL;
+      reportLink.download = 日期選擇.value+魚池名稱+'午仔魚出貨報表.txt';
+      reportLink.click();
+    }
+    function 生成Excel報表() {
+    var 桶子重 = parseFloat(document.getElementById("桶子重").value);
+    var 總隻數 = parseFloat(document.getElementById("總隻數").value);
+    var 總重量 = parseFloat(document.getElementById("重量").value);
+    var 出貨實際重量 = parseFloat(document.getElementById("實際重量結果").textContent);
+    var 打尾單支平均重量 = parseFloat(document.getElementById("單支平均重量結果").textContent);
+
+    var 日期選擇 = document.getElementById("日期選擇").value;
+    var 魚販名 = document.getElementById("魚販名").value;
+    var 魚池名稱 = document.getElementById("魚池名稱").value;
+    var 一斤價格 = parseFloat(document.getElementById("一斤價格").value);
+    var 出貨水重比 = parseFloat(document.getElementById("出貨水重比").value);
+    var 出貨桶子重 = parseFloat(document.getElementById("出貨桶子重").value);
+    var 單筆重量集合 = document.getElementsByClassName("單筆重量");
+    var 總金額結果 = parseFloat(document.getElementById("總金額結果").textContent);
+    var 總重量 = 0;
+
+    for (var i = 0; i < 單筆重量集合.length; i++) {
+      var 單筆重量 = parseFloat(單筆重量集合[i].value);
+      總重量 += 單筆重量;
+    }
+
+    var workbook = XLSX.utils.book_new();
+    var worksheet = XLSX.utils.aoa_to_sheet([
+      ["打尾統計"],
+      ["桶子重", 桶子重],
+      ["總隻數", 總隻數],
+      ["單支平均重量", 打尾單支平均重量],
+      [],
+      ["出貨記帳統計"],
+      ["日期", 日期選擇],
+      ["魚販", 魚販名],
+      ["魚池名稱", 魚池名稱],
+      ["一斤價格", 一斤價格],
+      ["水重比", 出貨水重比],
+      ["桶子重", 出貨桶子重],
+      ["總重量", 總重量],
+      ["實際重量(扣桶扣水)", 出貨實際重量],
+      ["總金額", 總金額結果],
+      ["筆數","單筆重量"],
+    ]);
+
+    for (var i = 0; i < 單筆重量集合.length; i++) {
+      var 單筆重量 = parseFloat(單筆重量集合[i].value);
+      XLSX.utils.sheet_add_aoa(worksheet, [[(i + 1),單筆重量]], { origin: {r:-1,c:0 }});
+    }
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 日期選擇+魚池名稱+"午仔魚報表");
+
+    var wbout = XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+
+    function s2ab(s) {
+      var buf = new ArrayBuffer(s.length);
+      var view = new Uint8Array(buf);
+      for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
+      return buf;
+    }
+
+    saveAs(
+      new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
+      日期選擇+魚池名稱+"午仔魚報表.xlsx"
+    );
+  }
+  function 生成JPG報表() {
+      // 將整個報表的內容轉換為圖片
+      html2canvas(document.body).then(function(canvas) {
+        var imgData = canvas.toDataURL("image/jpeg");
+
+        var a = document.createElement('a');
+        a.href = imgData;
+        a.download = '報表.jpg';
+        a.click();
+      });
+    }
+  </script>
+</body>
+</html>
