@@ -72,6 +72,33 @@
         border-radius: 4px;
         cursor: pointer;
       }
+  
+      /* 媒體查詢，適用於螢幕寬度小於 600px 的情況 */
+      @media (max-width: 600px) {
+        .container {
+          padding: 10px;
+        }
+  
+        h1 {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+  
+        h2 {
+          font-size: 18px;
+          margin-top: 20px;
+          margin-bottom: 10px;
+        }
+  
+        .input-group input,
+        .input-group select {
+          font-size: 14px;
+        }
+  
+        .report-button button {
+          font-size: 14px;
+        }
+      }
     </style>
   </head>
   <body>
