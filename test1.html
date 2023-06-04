@@ -222,7 +222,7 @@
       <button class="btn add-btn" onclick="addWeight(1)">新增一筆</button>
     </div>
     <div>
-      <button class="btn" onclick="toggleSpecVisibility2()">新增規格2</button>
+      <button class="btn" onclick="toggleSpecVisibility2()">規格2</button>
     </div>
     <div class="spec" id="spec2">
       <div class="spec-header">
@@ -247,7 +247,7 @@
       <button class="btn add-btn" onclick="addWeight(2)">新增一筆</button>
     </div>
     <div>
-      <button class="btn" onclick="toggleSpecVisibility3()">新增規格3</button>
+      <button class="btn" onclick="toggleSpecVisibility3()">規格3</button>
     </div>
     <div class="spec" id="spec3">
       <div class="spec-header">
@@ -272,7 +272,7 @@
       <button class="btn add-btn" onclick="addWeight(3)">新增一筆</button>
     </div>
     <div>
-      <button class="btn" onclick="toggleSpecVisibility4()">新增規格4</button>
+      <button class="btn" onclick="toggleSpecVisibility4()">規格4</button>
     </div>
     <div class="spec"  id="spec4">
       <div class="spec-header">
@@ -314,7 +314,7 @@
         </div>
       </div>
     
-      <div class="result-group result-group result-group-2">
+      <div class="result-group result-group result-group-2 " style="display: none;" >
         <div class="result-title">規格2</div>
         <div class="result-item">
           <label for="totalWeight2">總重量（台斤）：</label>
@@ -330,7 +330,7 @@
         </div>
       </div>
     
-      <div class="result-group result-group result-group-3">
+      <div class="result-group result-group result-group-3" style="display: none;" >
         <div class="result-title">規格3</div>
         <div class="result-item">
           <label for="totalWeight3">總重量（台斤）：</label>
@@ -346,7 +346,7 @@
         </div>
       </div>
     
-      <div class="result-group result-group-4">
+      <div class="result-group result-group-4" style="display: none;" >
         <div class="result-title">規格4</div>
         <div class="result-item">
           <label for="totalWeight4">總重量（台斤）：</label>
@@ -427,6 +427,43 @@ function addWeight(spec) {
       spec.style.display = "none"; // 隱藏
     }
   }
+
+    // 監聽description2的值變化
+    document.getElementById("description2").addEventListener("input", function() {
+    var descriptionValue = this.value.trim();
+    var resultGroup2 = document.querySelector(".result-group-2");
+
+    // 如果description2有輸入值，顯示結果區塊，否則隱藏
+    if (descriptionValue !== "") {
+      resultGroup2.style.display = "block";
+    } else {
+      resultGroup2.style.display = "none";
+    }
+  });
+      // 監聽description2的值變化
+      document.getElementById("description3").addEventListener("input", function() {
+    var descriptionValue = this.value.trim();
+    var resultGroup3 = document.querySelector(".result-group-3");
+
+    // 如果description3有輸入值，顯示結果區塊，否則隱藏
+    if (descriptionValue !== "") {
+      resultGroup3.style.display = "block";
+    } else {
+      resultGroup3.style.display = "none";
+    }
+  });
+      // 監聽description4的值變化
+      document.getElementById("description4").addEventListener("input", function() {
+    var descriptionValue = this.value.trim();
+    var resultGroup4 = document.querySelector(".result-group-4");
+
+    // 如果description4有輸入值，顯示結果區塊，否則隱藏
+    if (descriptionValue !== "") {
+      resultGroup4.style.display = "block";
+    } else {
+      resultGroup4.style.display = "none";
+    }
+  });
   </script>
 </body>
 
