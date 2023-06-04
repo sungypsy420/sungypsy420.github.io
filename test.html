@@ -331,13 +331,15 @@
     );
   }
   function 生成JPG報表() {
+    var 日期選擇 = document.getElementById("日期選擇").value;
+    var 魚池名稱 = document.getElementById("魚池名稱").value;
       // 將整個報表的內容轉換為圖片
       html2canvas(document.body).then(function(canvas) {
         var imgData = canvas.toDataURL("image/jpeg");
 
         var a = document.createElement('a');
         a.href = imgData;
-        a.download = '報表.jpg';
+        a.download = 日期選擇+魚池名稱+'午仔魚報表.jpg';
         a.click();
       });
     }
