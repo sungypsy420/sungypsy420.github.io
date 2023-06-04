@@ -1,70 +1,91 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>午仔魚池邊價出貨記帳</title>
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-  <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
-</head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .navigation {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .navigation a {
-      margin: 10px;
-      text-decoration: none;
-    }
-
-    .input-group {
-      margin-bottom: 10px;
-    }
-
-    .input-group label {
-      display: inline-block;
-      width: 150px;
-    }
-
-    .input-group input {
-      width: 150px;
-    }
-
-    .results {
-      margin-top: 20px;
-    }
-
-    .report-button {
-      margin-top: 20px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <h1 class="display-4">午仔魚 ╴池邊價出貨記帳</h1>
-
-  <div class="container">
-    <div class="navigation">
-      <a href="#打尾">打尾</a>
-      <a href="#出貨記帳">出貨記帳</a>
-    </div>
-
-    <div id="打尾" class="section">
+  <head>
+    <title>午仔魚池邊價出貨記帳</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+  
+      h1 {
+        text-align: center;
+      }
+  
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+  
+      .navigation {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+  
+      .navigation a {
+        margin: 10px;
+        text-decoration: none;
+        /* 新增樣式 */
+        text-decoration: none;
+        color: #333;
+        border-bottom: 2px solid transparent;
+        transition: border-bottom 0.3s ease;
+      }
+  
+      .navigation a:hover {
+        /* 新增樣式 */
+        border-bottom: 2px solid #333;
+      }
+  
+      .input-group {
+        margin-bottom: 10px;
+      }
+  
+      .input-group label {
+        display: inline-block;
+        width: 150px;
+      }
+  
+      .input-group input {
+        width: 150px;
+        /* 新增樣式 */
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+  
+      .results {
+        margin-top: 20px;
+      }
+  
+      .report-button {
+        margin-top: 20px;
+        text-align: center;
+      }
+  
+      /* Button hover effect */
+      .report-button button {
+        transition: background-color 0.3s ease;
+      }
+  
+      .report-button button:hover {
+        background-color: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="display-4">午仔魚 ╴池邊價出貨記帳</h1>
+  
+    <div class="container">
+      <div class="navigation">
+        <a href="#打尾">打尾</a>
+        <a href="#出貨記帳">出貨記帳</a>
+      </div>
+  
+      <div id="打尾" class="section">
         <h2>打尾</h2>
         <div class="input-group">
           <label for="桶子重">桶子重(台斤)：</label>
@@ -83,70 +104,69 @@
           <span id="單支平均重量結果"></span>
         </div>
       </div>
-      
-
-    <div id="出貨記帳" class="section">
-      <h2>出貨記帳</h2>
-      <div class="input-group">    
-        <form>
-          <label for="日期選擇">選擇日期：</label>
-          <input type="date" id="日期選擇" name="日期選擇">
-
-        </form> 
-      </div>
-      <div class="input-group">
-        <label for="魚販名">魚販：</label>
-        <input type="text" id="魚販名" oninput="計算出貨記帳()">
-      </div>
-      <div class="input-group">
-        <label for="魚池名稱">魚池名稱：</label>
-        <input type="text" id="魚池名稱" oninput="計算出貨記帳()">
-      </div>
-      <div class="input-group">
-        <label for="一斤價格">一斤價格：</label>
-        <input type="number" id="一斤價格" oninput="計算出貨記帳()">
-      </div>
-      <div class="input-group">
-        <label for="出貨水重比">水重比：</label>
-        <input type="number" id="出貨水重比" value="0.98" oninput="計算出貨記帳()">
-      </div>
-      <div class="input-group">
-        <label for="出貨桶子重">桶子重(台斤)：</label>
-        <input type="number" id="出貨桶子重" oninput="計算出貨記帳()">
-      </div>
-      <div id="單筆重量區域">
+  
+  
+      <div id="出貨記帳" class="section">
+        <h2>出貨記帳</h2>
         <div class="input-group">
-          <label for="單筆重量1">1. 單筆重量：</label>
-          <input type="number" class="單筆重量" id="單筆重量1" oninput="計算出貨記帳()">
-          <button onclick="刪除單筆重量(this)">刪除</button> <!-- 新增刪除按钮 -->
+          <form>
+            <label for="日期選擇">選擇日期：</label>
+            <input type="date" id="日期選擇" name="日期選擇">
+          </form>
+        </div>
+        <div class="input-group">
+          <label for="魚販名">魚販：</label>
+          <input type="text" id="魚販名" oninput="計算出貨記帳()">
+        </div>
+        <div class="input-group">
+          <label for="魚池名稱">魚池名稱：</label>
+          <input type="text" id="魚池名稱" oninput="計算出貨記帳()">
+        </div>
+        <div class="input-group">
+          <label for="一斤價格">一斤價格：</label>
+          <input type="number" id="一斤價格" oninput="計算出貨記帳()">
+        </div>
+        <div class="input-group">
+          <label for="出貨水重比">水重比：</label>
+          <input type="number" id="出貨水重比" value="0.98" oninput="計算出貨記帳()">
+        </div>
+        <div class="input-group">
+          <label for="出貨桶子重">桶子重(台斤)：</label>
+          <input type="number" id="出貨桶子重" oninput="計算出貨記帳()">
+        </div>
+        <div id="單筆重量區域">
+          <div class="input-group">
+            <label for="單筆重量1">1. 單筆重量：</label>
+            <input type="number" class="單筆重量" id="單筆重量1" oninput="計算出貨記帳()">
+            <button onclick="刪除單筆重量(this)">刪除</button> <!-- 新增刪除按钮 -->
+          </div>
+        </div>
+        <div class="report-button">
+          <button onclick="新增單筆重量()">新增一筆</button>
+        </div>
+        <div class="results">
+          <label for="總重量">總重量(台斤)：</label>
+          <span id="總重量結果"></span>
+        </div>
+        <div class="results">
+          <label for="實際重量">實際重量(台斤)【扣桶子和水重】：</label>
+          <span id="實際重量結果"></span>
+        </div>
+        <div class="input-group">
+          <label for="總金額">總金額(元)：</label>
+          <span id="總金額結果"></span>
+        </div>
+        <div class="report-button">
+          <button onclick="生成報表()">產出報表</button>
+        </div>
+        <div class="report-button">
+          <button onclick="生成Excel報表()">產出 Excel 報表</button>
+        </div>
+        <div class="report-button">
+          <button onclick="生成JPG報表()">螢幕截圖報表</button>
         </div>
       </div>
-      <div class="report-button">
-      <button onclick="新增單筆重量()">新增一筆</button>
-      </div>
-      <div class="results">
-        <label for="總重量">總重量(台斤)：</label>
-        <span id="總重量結果"></span>
-      </div>
-      <div class="results">
-        <label for="實際重量">實際重量(台斤)【扣桶子和水重】：</label>
-        <span id="實際重量結果"></span>
-      </div>
-      <div class="input-group">
-        <label for="總金額">總金額(元)：</label>
-        <span id="總金額結果"></span>
-      </div>
-      <div class="report-button">
-        <button onclick="生成報表()">產出報表</button>
-      </div>
-      <div class="report-button">
-        <button onclick="生成Excel報表()">產出 Excel 報表</button>
-      </div>
-      <div class="report-button">
-        <button onclick="生成JPG報表()">螢幕截圖報表</button>
-      </div>
     </div>
-  </div>
 
   <script>
     function 取得選擇的日期() {
