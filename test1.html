@@ -140,6 +140,13 @@
     .spec-header #price4 {
       width: 100px;
     }
+    .spec {
+    display: none; /* 預設隱藏 */
+  }
+
+  #spec1 {
+    display: block; /* 預設顯示 */
+  }
   </style>
 </head>
 
@@ -165,7 +172,7 @@
     <label for="bucketWeight">桶子重(台斤):</label>
     <input type="number" id="bucketWeight" placeholder="輸入裝魚的桶子或籃子的重量">
 
-    <div class="spec">
+    <div class="spec" id="spec1">
       <div class="spec-header">
         <div class="spec-title">規格 1</div>
         <div class="spec-description">
@@ -186,7 +193,9 @@
 
       <button class="btn add-btn" onclick="addWeight(1)">新增一筆</button>
     </div>
-
+    <div>
+      <button class="btn" onclick="toggleSpecVisibility2()">新增規格2</button>
+    </div>
     <div class="spec" id="spec2">
       <div class="spec-header">
         <div class="spec-title">規格 2</div>
@@ -209,7 +218,9 @@
 
       <button class="btn add-btn" onclick="addWeight(2)">新增一筆</button>
     </div>
-
+    <div>
+      <button class="btn" onclick="toggleSpecVisibility3()">新增規格3</button>
+    </div>
     <div class="spec" id="spec3">
       <div class="spec-header">
         <div class="spec-title">規格 3</div>
@@ -232,7 +243,9 @@
 
       <button class="btn add-btn" onclick="addWeight(3)">新增一筆</button>
     </div>
-
+    <div>
+      <button class="btn" onclick="toggleSpecVisibility4()">新增規格4</button>
+    </div>
     <div class="spec"  id="spec4">
       <div class="spec-header">
         <div class="spec-title">規格 4</div>
@@ -345,6 +358,30 @@ function addWeight(spec) {
         weightItems.removeChild(weightItems.lastChild);
       }
     }
+    function toggleSpecVisibility2() {
+    var spec = document.getElementById("spec2");
+    if (spec.style.display === "none") {
+      spec.style.display = "block"; // 顯示
+    } else {
+      spec.style.display = "none"; // 隱藏
+    }
+  }
+  function toggleSpecVisibility3() {
+    var spec = document.getElementById("spec3");
+    if (spec.style.display === "none") {
+      spec.style.display = "block"; // 顯示
+    } else {
+      spec.style.display = "none"; // 隱藏
+    }
+  }
+  function toggleSpecVisibility4() {
+    var spec = document.getElementById("spec4");
+    if (spec.style.display === "none") {
+      spec.style.display = "block"; // 顯示
+    } else {
+      spec.style.display = "none"; // 隱藏
+    }
+  }
   </script>
 </body>
 
