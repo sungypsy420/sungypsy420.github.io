@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>石斑類 ╴池邊價出貨記帳</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .spec {
+      margin-top: 20px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .spec-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .spec-title {
+      font-size: 20px;
+      color: #333;
+    }
+
+    .add-btn {
+      background-color: #4caf50;
+    }
+
+    .delete-btn {
+      background-color: #f44336;
+    }
+
+    .weight-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .weight-item input[type="number"] {
+      width: 80%;
+      margin-right: 10px;
+    }
+
+    .result-section {
+      margin-top: 40px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-item {
+      margin-bottom: 10px;
+    }
+
+    .result-item label {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>出貨記帳</h1>
+
+    <label for="date">選擇日期:</label>
+    <input type="date" id="date">
+
+    <label for="vendor">魚販:</label>
+    <input type="text" id="vendor">
+
+    <label for="poolName">魚池名稱:</label>
+    <input type="text" id="poolName">
+
+    <label for="waterWeightRatio">水重比:</label>
+    <input type="number" id="waterWeightRatio">
+
+    <label for="bucketWeight">桶子重(台斤):</label>
+    <input type="number" id="bucketWeight">
+
+    <div class="spec">
+      <div class="spec-header">
+        <div class="spec-title">規格1：</div>
+        <div>
+          <input type="number" id="price1" placeholder="一斤價格">
+        </div>
+      </div>
+
+      <div id="weightItems1">
+        <div class="weight-item">
+          <input type="number" class="weightInput" placeholder="單筆重量">
+          <button class="btn delete-btn" onclick="deleteWeight(1)">刪除</button>
+        </div>
+      </div>
+
+      <button class="btn add-btn" onclick="addWeight(1)">新增一筆</button>
+    </div>
+
+    <div class="spec" style="display: none;" id="spec2">
+      <div class="spec-header">
+        <div class="spec-title">規格2：</div>
+        <div>
+          <input type="number" id="price2" placeholder="一斤價格">
+        </div>
+      </div>
+
+      <div id="weightItems2">
+        <div class="weight-item">
+          <input type="number" class="weightInput" placeholder="單筆重量">
+          <button class="btn delete-btn" onclick="deleteWeight(2)">刪除</button>
+        </div>
+      </div>
+
+      <button class="btn add-btn" onclick="addWeight(2)">新增一筆</button>
+    </div>
+
+    <div class="spec" style="display: none;" id="spec3">
+      <div class="spec-header">
+        <div class="spec-title">規格3：</div>
+        <div>
+          <input type="number" id="price3" placeholder="一斤價格">
+        </div>
+      </div>
+
+      <div id="weightItems3">
+        <div class="weight-item">
+          <input type="number" class="weightInput" placeholder="單筆重量">
+          <button class="btn delete-btn" onclick="deleteWeight(3)">刪除</button>
+        </div>
+      </div>
+
+      <button class="btn add-btn" onclick="addWeight(3)">新增一筆</button>
+    </div>
+
+    <div class="spec" style="display: none;" id="spec4">
+      <div class="spec-header">
+        <div class="spec-title">規格4：</div>
+        <div>
+          <input type="number" id="price4" placeholder="一斤價格">
+        </div>
+      </div>
+
+      <div id="weightItems4">
+        <div class="weight-item">
+          <input type="number" class="weightInput" placeholder="單筆重量">
+          <button class="btn delete-btn" onclick="deleteWeight(4)">刪除</button>
+        </div>
+      </div>
+
+      <button class="btn add-btn" onclick="addWeight(4)">新增一筆</button>
+    </div>
+
+    <div class="result-section">
+      <div class="result-item">
+        <label for="totalWeight1">規格1總重量(台斤):</label>
+        <span id="totalWeight1"></span>
+      </div>
+      <div class="result-item">
+        <label for="actualWeight1">規格1實際重量(台斤)【扣桶子和水重】:</label>
+        <span id="actualWeight1"></span>
+      </div>
+      <div class="result-item">
+        <label for="totalAmount1">規格1總金額(元):</label>
+        <span id="totalAmount1"></span>
+      </div>
+
+      <div class="result-item" style="display: none;" id="result2">
+        <label for="totalWeight2">規格2總重量(台斤):</label>
+        <span id="totalWeight2"></span>
+      </div>
+      <div class="result-item" style="display: none;" id="result2">
+        <label for="actualWeight2">規格2實際重量(台斤)【扣桶子和水重】:</label>
+        <span id="actualWeight2"></span>
+      </div>
+      <div class="result-item" style="display: none;" id="result2">
+        <label for="totalAmount2">規格2總金額(元):</label>
+        <span id="totalAmount2"></span>
+      </div>
+
+      <div class="result-item" style="display: none;" id="result3">
+        <label for="totalWeight3">規格3總重量(台斤):</label>
+        <span id="totalWeight3"></span>
+      </div>
+      <div class="result-item" style="display: none;" id="result3">
+        <label for="actualWeight3">規格3實際重量(台斤)【扣桶子和水重】:</label>
+        <span id="actualWeight3"></span>
+      </div>
+      <div class="result-item" style="display: none;" id="result3">
+        <label for="totalAmount3">規格3總金額(元):</label>
+        <span id="totalAmount3"></span>
+      </div>
+
+      <div class="result-item" style="display: none;" id="result4">
+        <label for="totalWeight4">規格4總重量(台斤):</label>
+        <span id="totalWeight4"></span>
+      </div>
+      <div class="result-item" style="display: none;" id="result4">
+        <label for="actualWeight4">規格4實際重量(台斤)【扣桶子和水重】:</label>
+        <span id="actualWeight4"></span>
+      </div>
+      <div class="result-item" style="display: none;" id="result4">
+        <label for="totalAmount4">規格4總金額(元):</label>
+        <span id="totalAmount4"></span>
+      </div>
+
+      <div class="result-item">
+        <label for="totalWeight">全規格總重量(台斤):</label>
+        <span id="totalWeight"></span>
+      </div>
+      <div class="result-item">
+        <label for="actualWeight">全規格實際重量(台斤)【扣桶子和水重】:</label>
+        <span id="actualWeight"></span>
+      </div>
+      <div class="result-item">
+        <label for="totalAmount">全規格總金額(元):</label>
+        <span id="totalAmount"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function addWeight(spec) {
+      const weightItems = document.getElementById(`weightItems${spec}`);
+      const weightItem = document.createElement("div");
+      weightItem.classList.add("weight-item");
+      weightItem.innerHTML = `
+        <input type="number" class="weightInput" placeholder="單筆重量">
+        <button class="btn delete-btn" onclick="deleteWeight(${spec})">刪除</button>
+      `;
+      weightItems.appendChild(weightItem);
+    }
+
+    function deleteWeight(spec) {
+      const weightItems = document.getElementById(`weightItems${spec}`);
+      const weightInputs = weightItems.getElementsByClassName("weightInput");
+      if (weightInputs.length > 1) {
+        weightItems.removeChild(weightItems.lastChild);
+      }
+    }
+  </script>
+</body>
+
+</html>
