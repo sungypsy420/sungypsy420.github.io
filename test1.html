@@ -111,6 +111,18 @@
     .result-item label {
       font-weight: bold;
     }
+
+    .weight-item {
+     display: flex;
+     align-items: center;
+     margin-bottom: 10px;
+    }
+
+    .weight-item .weight-index {
+    margin-right: 10px;
+    font-weight: bold;
+    }
+
   </style>
 </head>
 
@@ -136,14 +148,16 @@
     <div class="spec">
       <div class="spec-header">
         <div class="spec-title">規格1：</div>
+        <div class="spec-description">
+          <input type="text" id="description1" placeholder="輸入規格">
+        </div>   
         <div>
-          <input type="number" id="price1" placeholder="一斤價格">
+          <input type="number" id="price1" placeholder="輸入一斤價格">
         </div>
-      </div>
-
+      </div> 
       <div id="weightItems1">
         <div class="weight-item">
-          <input type="number" class="weightInput" placeholder="單筆重量">
+          <input type="number" class="weightInput" placeholder="輸入單筆重量">
           <button class="btn delete-btn" onclick="deleteWeight(1)">刪除</button>
         </div>
       </div>
@@ -151,17 +165,20 @@
       <button class="btn add-btn" onclick="addWeight(1)">新增一筆</button>
     </div>
 
-    <div class="spec" style="display: none;" id="spec2">
+    <div class="spec" id="spec2">
       <div class="spec-header">
         <div class="spec-title">規格2：</div>
+        <div class="spec-description">
+          <input type="text" id="description2" placeholder="輸入規格">
+        </div> 
         <div>
-          <input type="number" id="price2" placeholder="一斤價格">
+          <input type="number" id="price2" placeholder="輸入一斤價格">
         </div>
       </div>
 
       <div id="weightItems2">
         <div class="weight-item">
-          <input type="number" class="weightInput" placeholder="單筆重量">
+          <input type="number" class="weightInput" placeholder="輸入單筆重量">
           <button class="btn delete-btn" onclick="deleteWeight(2)">刪除</button>
         </div>
       </div>
@@ -169,17 +186,20 @@
       <button class="btn add-btn" onclick="addWeight(2)">新增一筆</button>
     </div>
 
-    <div class="spec" style="display: none;" id="spec3">
+    <div class="spec" id="spec3">
       <div class="spec-header">
         <div class="spec-title">規格3：</div>
+        <div class="spec-description">
+          <input type="text" id="description3" placeholder="輸入規格">
+        </div> 
         <div>
-          <input type="number" id="price3" placeholder="一斤價格">
+          <input type="number" id="price3" placeholder="輸入一斤價格">
         </div>
       </div>
 
       <div id="weightItems3">
         <div class="weight-item">
-          <input type="number" class="weightInput" placeholder="單筆重量">
+          <input type="number" class="weightInput" placeholder="輸入單筆重量">
           <button class="btn delete-btn" onclick="deleteWeight(3)">刪除</button>
         </div>
       </div>
@@ -187,17 +207,20 @@
       <button class="btn add-btn" onclick="addWeight(3)">新增一筆</button>
     </div>
 
-    <div class="spec" style="display: none;" id="spec4">
+    <div class="spec"  id="spec4">
       <div class="spec-header">
         <div class="spec-title">規格4：</div>
+        <div class="spec-description">
+          <input type="text" id="description4" placeholder="輸入規格">
+        </div> 
         <div>
-          <input type="number" id="price4" placeholder="一斤價格">
+          <input type="number" id="price4" placeholder="輸入一斤價格">
         </div>
       </div>
 
       <div id="weightItems4">
         <div class="weight-item">
-          <input type="number" class="weightInput" placeholder="單筆重量">
+          <input type="number" class="weightInput" placeholder="輸入單筆重量">
           <button class="btn delete-btn" onclick="deleteWeight(4)">刪除</button>
         </div>
       </div>
@@ -274,16 +297,18 @@
   </div>
 
   <script>
-    function addWeight(spec) {
-      const weightItems = document.getElementById(`weightItems${spec}`);
-      const weightItem = document.createElement("div");
-      weightItem.classList.add("weight-item");
-      weightItem.innerHTML = `
-        <input type="number" class="weightInput" placeholder="單筆重量">
-        <button class="btn delete-btn" onclick="deleteWeight(${spec})">刪除</button>
-      `;
-      weightItems.appendChild(weightItem);
-    }
+function addWeight(spec) {
+  const weightItems = document.getElementById(`weightItems${spec}`);
+  const weightItem = document.createElement("div");
+  weightItem.classList.add("weight-item");
+  const weightIndex = weightItems.children.length + 1; // 取得單筆重量的編號
+  weightItem.innerHTML = `
+    <span class="weight-index">${weightIndex}</span>
+    <input type="number" class="weightInput" placeholder="單筆重量">
+    <button class="btn delete-btn" onclick="deleteWeight(${spec})">刪除</button>
+  `;
+  weightItems.appendChild(weightItem);
+}
 
     function deleteWeight(spec) {
       const weightItems = document.getElementById(`weightItems${spec}`);
