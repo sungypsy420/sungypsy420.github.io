@@ -253,8 +253,21 @@
     </select>
     <input type="number" id="customWaterWeightRatio" placeholder="手動輸入數值" style="width: 130px;" disabled>
 
-    <label for="bucketWeight">桶子重:</label>
-    <input type="number" id="bucketWeight" placeholder="輸入裝魚的桶子或籃子的重量">
+    <label for="bucketWeight">桶重(斤):</label>
+    <select id="bucketWeight" onchange="handleBucketWeightChange(this)">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5" selected>5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="other">其他</option>
+  </select>
+  <input type="number" id="customBucketWeight" placeholder="手動輸入數值" style="width: 145px;" disabled>
   </div>
   <div class="form-row">
     <label for="bucketWeight">網工費用:</label>
@@ -684,6 +697,22 @@ function addWeight(spec) {
       }
     });
   });
+
+  window.onload = function() {
+    var select = document.getElementById("bucketWeight");
+    var customInput = document.getElementById("customBucketWeight");
+    customInput.value = select.value;
+}
+  function handleBucketWeightChange(select) {
+    var customInput = document.getElementById("customBucketWeight");
+    if (select.value === "other") {
+        customInput.disabled = false;
+        customInput.value = "";
+    } else {
+        customInput.disabled = true;
+        customInput.value = select.value;
+    }
+}
   </script>
 </body>
 
