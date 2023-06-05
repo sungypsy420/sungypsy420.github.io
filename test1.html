@@ -197,6 +197,20 @@
     .form-row input {
         width: 200px;
     }
+    .result-row {
+        display: flex;
+        align-items: center;
+    }
+
+    .result-item {
+       font-size: 20px; /* 自行調整字體大小 */
+       line-height: 1.7;
+       height: 20px; /* 自行調整高度 */
+    }
+    .itemresult {
+       font-size: 20px; /* 調整字體大小，可以根據需要調整數值 */
+       height: 16px; /* 自行調整高度 */
+     }
 
   </style>
 </head>
@@ -241,7 +255,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 1</div>
         <div class="spec-description">
-          <input type="text" id="description1" placeholder="輸入規格如8兩">
+          <input type="text" id="description1" placeholder="輸入規格如8兩" oninput="updateSpecResult1()">
         </div>  
         <div class="text">單價</div> 
         <div>
@@ -265,7 +279,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 2</div>
         <div class="spec-description">
-          <input type="text" id="description2" placeholder="輸入規格如8兩">
+          <input type="text" id="description2" placeholder="輸入規格如8兩" oninput="updateSpecResult2()">
         </div> 
         <div class="text">單價</div> 
         <div>
@@ -290,7 +304,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 3</div>
         <div class="spec-description">
-          <input type="text" id="description3" placeholder="輸入規格如8兩">
+          <input type="text" id="description3" placeholder="輸入規格如8兩" oninput="updateSpecResult3()">
         </div> 
         <div class="text">單價</div> 
         <div>
@@ -315,7 +329,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 4</div>
         <div class="spec-description">
-          <input type="text" id="description4" placeholder="輸入規格如8兩">
+          <input type="text" id="description4" placeholder="輸入規格如8兩" oninput="updateSpecResult4()">
         </div> 
         <div class="text">單價</div> 
         <div>
@@ -340,7 +354,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 5</div>
         <div class="spec-description">
-          <input type="text" id="description5" placeholder="輸入規格如8兩">
+          <input type="text" id="description5" placeholder="輸入規格如8兩" oninput="updateSpecResult5()">
         </div> 
         <div class="text">單價</div> 
         <div>
@@ -362,7 +376,11 @@
 
     <div class="result-section">
       <div class="result-group result-group result-group-1">
+      <div class="result-row">
         <div class="result-title">規格1</div>
+        <label for="totalWeight1">※</label>
+        <div class="itemresult" id="specresult1" ></div>
+      </div>
         <div class="result-item">
           <label for="totalWeight1">總重量（台斤）：</label>
           <span id="totalWeight1"></span>
@@ -378,7 +396,11 @@
       </div>
     
       <div class="result-group result-group result-group-2 " style="display: none;" >
+        <div class="result-row">
         <div class="result-title">規格2</div>
+        <label for="totalWeight1">※</label>
+        <div class="itemresult" id="specresult2" ></div>
+      </div>
         <div class="result-item">
           <label for="totalWeight2">總重量（台斤）：</label>
           <span id="totalWeight2"></span>
@@ -394,7 +416,11 @@
       </div>
     
       <div class="result-group result-group result-group-3" style="display: none;" >
+        <div class="result-row">
         <div class="result-title">規格3</div>
+        <label for="totalWeight1">※</label>
+        <div class="itemresult" id="specresult3" ></div>
+      </div>
         <div class="result-item">
           <label for="totalWeight3">總重量（台斤）：</label>
           <span id="totalWeight3"></span>
@@ -410,7 +436,11 @@
       </div>
     
       <div class="result-group result-group-4" style="display: none;" >
+        <div class="result-row">
         <div class="result-title">規格4</div>
+        <label for="totalWeight1">※</label>
+        <div class="itemresult" id="specresult4" ></div>
+      </div>
         <div class="result-item">
           <label for="totalWeight4">總重量（台斤）：</label>
           <span id="totalWeight4"></span>
@@ -426,7 +456,11 @@
       </div>
     
       <div class="result-group result-group-5" style="display: none;" >
+      <div class="result-row">
         <div class="result-title">規格5</div>
+        <label for="totalWeight1">※</label>
+        <div class="itemresult" id="specresult5" ></div>
+      </div>
         <div class="result-item">
           <label for="totalWeight5">總重量（台斤）：</label>
           <span id="totalWeight5"></span>
@@ -579,6 +613,32 @@ function addWeight(spec) {
             customInput.value = select.value;
         }
     }
+
+    function updateSpecResult1() {
+      var description = document.getElementById("description1").value;
+      var resultElement = document.getElementById("specresult1");
+      resultElement.innerText = description;
+  }
+    function updateSpecResult2() {
+      var description = document.getElementById("description2").value;
+      var resultElement = document.getElementById("specresult2");
+      resultElement.innerText = description;
+  }
+    function updateSpecResult3() {
+       var description = document.getElementById("description3").value;
+       var resultElement = document.getElementById("specresult3");
+       resultElement.innerText = description;
+  }
+    function updateSpecResult4() {
+       var description = document.getElementById("description4").value;
+       var resultElement = document.getElementById("specresult4");
+       resultElement.innerText = description;
+  }
+    function updateSpecResult5() {
+       var description = document.getElementById("description5").value;
+       var resultElement = document.getElementById("specresult5");
+       resultElement.innerText = description;
+  }
   </script>
 </body>
 
