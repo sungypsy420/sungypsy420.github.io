@@ -181,31 +181,62 @@
   background-color: #D9D9D9; /* 設定全規格區域的背景顏色 */
 }
 
+.form-row {
+        margin-bottom: 10px;
+    }
+    .form-row label,
+    .form-row input {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .form-row label {
+        width: 80px;
+        text-align: right;
+        margin-right: 10px;
+    }
+    .form-row input {
+        width: 200px;
+    }
+
   </style>
 </head>
 
 <body>
   <div class="container">
     <h1>池邊價出貨記帳</h1>
-
+  <div class="form-row">
     <label for="date">選擇日期:</label>
-    <input type="date" id="date">
+    <input type="date" id="date" style="width: 218px;">
 
     <label for="kind">種類:</label>
     <input type="text" id="kind" placeholder="例如龍虎珍珠斑、午仔魚、海水白蝦">
-
+  </div>
+  <div class="form-row">
     <label for="vendor">魚販:</label>
     <input type="text" id="vendor" placeholder="輸入魚販或中間人名字">
 
     <label for="poolName">魚池名稱:</label>
     <input type="text" id="poolName" placeholder="輸入魚池名稱或是地點">
+  </div>
+  <div class="form-row">
+    <label for="waterWeightRatio">水重比:</label>
+    <select id="waterWeightRatio" onchange="handleSelectChange(this)">
+        <option value="0.98" selected>午仔魚</option>
+        <option value="0.975">石斑類</option>
+        <option value="other">其他</option>
+    </select>
+    <input type="number" id="customWaterWeightRatio" placeholder="手動輸入數值" style="width: 130px;" disabled>
 
-    <label for="waterWeightRatio">水重比:(輸入各魚種的水重比，預設0.98是午仔魚)</label>
-    <input type="number" id="waterWeightRatio" value="0.98" placeholder="輸入各魚種的水重比，預設0.98是午仔魚">
-
-    <label for="bucketWeight">桶子重(台斤):</label>
+    <label for="bucketWeight">桶子重:</label>
     <input type="number" id="bucketWeight" placeholder="輸入裝魚的桶子或籃子的重量">
+  </div>
+  <div class="form-row">
+    <label for="bucketWeight">網工費用:</label>
+    <input type="number" id="workpay" placeholder="輸入網工費用">
 
+    <label for="bucketWeight">備註:</label>
+    <input type="number" id="note" placeholder="輸入備註">
+  </div>
     <div class="spec" id="spec1">
       <div class="spec-header">
         <div class="spec-title">規格 1</div>
@@ -531,6 +562,23 @@ function addWeight(spec) {
       resultGroup4.style.display = "none";
     }
   });
+
+  window.onload = function() {
+        var select = document.getElementById("waterWeightRatio");
+        var customInput = document.getElementById("customWaterWeightRatio");
+        customInput.value = select.value;
+    }
+
+    function handleSelectChange(select) {
+        var customInput = document.getElementById("customWaterWeightRatio");
+        if (select.value === "other") {
+            customInput.disabled = false;
+            customInput.value = "";
+        } else {
+            customInput.disabled = true;
+            customInput.value = select.value;
+        }
+    }
   </script>
 </body>
 
