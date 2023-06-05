@@ -137,14 +137,16 @@
     .spec-header #description1,
     .spec-header #description2,
     .spec-header #description3,
-    .spec-header #description4 {
+    .spec-header #description4,
+    .spec-header #description5 {
       width: 120px;
     }
 
     .spec-header #price1,
     .spec-header #price2,
     .spec-header #price3,
-    .spec-header #price4 {
+    .spec-header #price4,
+    .spec-header #price5 {
       width: 67px;
     }
     .spec {
@@ -169,6 +171,10 @@
 
 .result-group-4 {
   background-color: #E1E1E1; /* 設定區域4的背景顏色 */
+}
+
+.result-group-5 {
+  background-color: #e7e5e5; /* 設定區域5的背景顏色 */
 }
 
 .result-group-all {
@@ -294,8 +300,34 @@
         </div>
       </div>
 
-      <button class="btn add-btn" onclick="addWeight(4)">新增一筆</button>
+      <button class="btn add-btn" onclick="addWeight(5)">新增一筆</button>
     </div>
+    <div>
+      <button class="btn" onclick="toggleSpecVisibility5()">規格5</button>
+    </div>
+    <div class="spec"  id="spec5">
+      <div class="spec-header">
+        <div class="spec-title">規格 5</div>
+        <div class="spec-description">
+          <input type="text" id="description5" placeholder="輸入規格如8兩">
+        </div> 
+        <div class="text">單價</div> 
+        <div>
+          <input type="number" id="price5" placeholder="輸入一斤價格">
+        </div>
+      </div>
+
+      <div id="weightItems5">
+        <div class="weight-item">
+          <div class="weight-index">1</div>
+          <input type="number" class="weightInput" placeholder="輸入單筆重量">
+          <button class="btn delete-btn" onclick="deleteWeight(5)">X</button>
+        </div>
+      </div>
+
+      <button class="btn add-btn" onclick="addWeight(5)">新增一筆</button>
+    </div>
+
 
     <div class="result-section">
       <div class="result-group result-group result-group-1">
@@ -362,6 +394,22 @@
         </div>
       </div>
     
+      <div class="result-group result-group-5" style="display: none;" >
+        <div class="result-title">規格5</div>
+        <div class="result-item">
+          <label for="totalWeight5">總重量（台斤）：</label>
+          <span id="totalWeight5"></span>
+        </div>
+        <div class="result-item">
+          <label for="actualWeight5">實際重量（台斤，扣除桶子和水重）：</label>
+          <span id="actualWeight5"></span>
+        </div>
+        <div class="result-item">
+          <label for="totalAmount5">總金額（元）：</label>
+          <span id="totalAmount5"></span>
+        </div>
+      </div>
+
       <div class="result-group result-group-all">
         <div class="result-title">全規格</div>
         <div class="result-item">
@@ -427,7 +475,14 @@ function addWeight(spec) {
       spec.style.display = "none"; // 隱藏
     }
   }
-
+  function toggleSpecVisibility5() {
+    var spec = document.getElementById("spec5");
+    if (spec.style.display === "none") {
+      spec.style.display = "block"; // 顯示
+    } else {
+      spec.style.display = "none"; // 隱藏
+    }
+  }
     // 監聽description2的值變化
     document.getElementById("description2").addEventListener("input", function() {
     var descriptionValue = this.value.trim();
@@ -458,6 +513,18 @@ function addWeight(spec) {
     var resultGroup4 = document.querySelector(".result-group-4");
 
     // 如果description4有輸入值，顯示結果區塊，否則隱藏
+    if (descriptionValue !== "") {
+      resultGroup4.style.display = "block";
+    } else {
+      resultGroup4.style.display = "none";
+    }
+  });
+        // 監聽description5的值變化
+        document.getElementById("description5").addEventListener("input", function() {
+    var descriptionValue = this.value.trim();
+    var resultGroup4 = document.querySelector(".result-group-5");
+
+    // 如果description5有輸入值，顯示結果區塊，否則隱藏
     if (descriptionValue !== "") {
       resultGroup4.style.display = "block";
     } else {
