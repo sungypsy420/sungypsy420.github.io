@@ -221,10 +221,21 @@
     <h1>池邊價出貨記帳表</h1>
   <div class="form-row">
     <label for="date">選擇日期:</label>
-    <input type="date" id="date" style="width: 218px;" onchange="displayFormattedDate()">
+    <input type="date" id="date" style="width: 218px;" onchange="displayFormattedDate()" value="">
 
     <label for="kind">種類:</label>
-    <input type="text" id="kind" placeholder="例如龍虎珍珠斑、午仔魚、白蝦">
+    <select id="kind">
+      <option value="龍虎珍珠斑">龍虎斑</option>
+      <option value="午仔魚">午仔魚</option>
+      <option value="龍膽石斑">龍膽石斑</option>
+      <option value="青班">青班</option>
+      <option value="班頭">班頭</option>
+      <option value="紅魚">紅魚</option>
+      <option value="海水白蝦">海水白蝦</option>
+      <option value="草蝦">草蝦</option>
+      <option value="其他">其他</option>
+    </select>
+    <input type="text" id="customKind" placeholder="自訂種類" style="display: none; width: 118px;white-space: nowrap;" >
   </div>
   <div class="form-row">
     <label for="vendor">魚販:</label>
@@ -641,14 +652,38 @@ function addWeight(spec) {
        resultElement.innerText = description;
   }
 
+  // 取得當前的日期
+  var today = new Date();
+  var year = today.getFullYear();
+  var month = String(today.getMonth() + 1).padStart(2, '0');
+  var day = String(today.getDate()).padStart(2, '0');
+  var formattedToday = `${year}-${month}-${day}`;
+
+  var dateInput = document.getElementById("date");
+  dateInput.value = formattedToday;
+
   function displayFormattedDate() {
-    var dateInput = document.getElementById("date");
     var selectedDate = dateInput.value;
     var formattedDate = selectedDate.split('-').reverse().join('/');
     
     var formattedDateElement = document.getElementById("formattedDate");
     formattedDateElement.textContent = formattedDate;
   }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    var kindSelect = document.getElementById("kind");
+    var customKindInput = document.getElementById("customKind");
+
+    kindSelect.addEventListener("change", function() {
+      if (kindSelect.value === "其他") {
+        customKindInput.style.display = "inline";
+        customKindInput.disabled = false;
+      } else {
+        customKindInput.style.display = "none";
+        customKindInput.disabled = true;
+      }
+    });
+  });
   </script>
 </body>
 
