@@ -251,7 +251,7 @@
         <option value="0.975">石斑類</option>
         <option value="other">其他</option>
     </select>
-    <input type="number" id="customWaterWeightRatio" placeholder="手動輸入數值" style="width: 130px;" disabled>
+    <input type="number" id="customWaterWeightRatio" placeholder="自行輸入桶重" style="width: 130px;" disabled >
 
     <label for="bucketWeight">桶重(斤):</label>
     <select id="bucketWeight" onchange="handleBucketWeightChange(this)">
@@ -280,7 +280,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 1</div>
         <div class="spec-description">
-          <input type="text" id="description1" placeholder="輸入規格如8兩" oninput="updateSpecResult1()">
+          <input type="text" id="description1" placeholder="輸入規格如8兩" oninput="updateSpecResult(1)">
         </div>  
         <div class="text">單價</div> 
         <div>
@@ -304,7 +304,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 2</div>
         <div class="spec-description">
-          <input type="text" id="description2" placeholder="輸入規格如8兩" oninput="updateSpecResult2()">
+          <input type="text" id="description2" placeholder="輸入規格如8兩" oninput="updateSpecResult(2)">
         </div> 
         <div class="text">單價</div> 
         <div>
@@ -329,7 +329,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 3</div>
         <div class="spec-description">
-          <input type="text" id="description3" placeholder="輸入規格如8兩" oninput="updateSpecResult3()">
+          <input type="text" id="description3" placeholder="輸入規格如8兩" oninput="updateSpecResult(3)">
         </div> 
         <div class="text">單價</div> 
         <div>
@@ -354,7 +354,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 4</div>
         <div class="spec-description">
-          <input type="text" id="description4" placeholder="輸入規格如8兩" oninput="updateSpecResult4()">
+          <input type="text" id="description4" placeholder="輸入規格如8兩" oninput="updateSpecResult(4)">
         </div> 
         <div class="text">單價</div> 
         <div>
@@ -379,7 +379,7 @@
       <div class="spec-header">
         <div class="spec-title">規格 5</div>
         <div class="spec-description">
-          <input type="text" id="description5" placeholder="輸入規格如8兩" oninput="updateSpecResult5()">
+          <input type="text" id="description5" placeholder="輸入規格如8兩" oninput="updateSpecResult(5)">
         </div> 
         <div class="text">單價</div> 
         <div>
@@ -406,18 +406,18 @@
         <label for="totalWeight1">※</label>
         <div class="itemresult" id="specresult1" ></div>
       </div>
-        <div class="result-item">
+      <div class="result-row">
           <label for="totalWeight1">總重量（台斤）：</label>
-          <span id="totalWeight1"></span>
-        </div>
-        <div class="result-item">
+          <div class="itemresult" id="totalWeight1" ></div>
+      </div>
+      <div class="result-row">
           <label for="actualWeight1">實量（扣桶和水重）：</label>
-          <span id="actualWeight1"></span>
-        </div>
-        <div class="result-item">
+          <div class="itemresult" id="actualWeight1" ></div>
+      </div>
+      <div class="result-row">
           <label for="totalAmount1">總金額（元）：</label>
-          <span id="totalAmount1"></span>
-        </div>
+          <div class="itemresult" id="totalAmount1" ></div>
+       </div>
       </div>
     
       <div class="result-group result-group result-group-2 " style="display: none;" >
@@ -525,22 +525,68 @@ function addWeight(spec) {
   const weightItems = document.getElementById(`weightItems${spec}`);
   const weightItem = document.createElement("div");
   weightItem.classList.add("weight-item");
-  const weightIndex = weightItems.children.length + 1; // 取得單筆重量的編號
+  const weightIndex = weightItems.children.length + 1; // Corrected calculation
   weightItem.innerHTML = `
     <span class="weight-index">${weightIndex}</span>
     <input type="number" class="weightInput" placeholder="單筆重量">
     <button class="btn delete-btn" onclick="deleteWeight(${spec})">X</button>
   `;
   weightItems.appendChild(weightItem);
+
+  const weightInputs = weightItems.getElementsByClassName("weightInput");
+  for (let i = 0; i < weightInputs.length; i++) {
+    weightInputs[i].addEventListener("input", calculateTotalWeight);
+  }
 }
 
-    function deleteWeight(spec) {
-      const weightItems = document.getElementById(`weightItems${spec}`);
-      const weightInputs = weightItems.getElementsByClassName("weightInput");
-      if (weightInputs.length > 1) {
-        weightItems.removeChild(weightItems.lastChild);
-      }
+
+function deleteWeight(spec) {
+  const weightItems = document.getElementById(`weightItems${spec}`);
+  const weightInputs = weightItems.getElementsByClassName("weightInput");
+  if (weightInputs.length > 1) {
+    weightItems.removeChild(weightItems.lastChild);
+    recalculateResults(spec); // Added function call to recalculate results
+  }
+}
+
+function recalculateResults(spec) {
+  const weightItems = document.getElementById(`weightItems${spec}`);
+  const weightInputs = weightItems.getElementsByClassName("weightInput");
+  
+  let totalWeight = 0;
+  let totalInputs = 0;
+  
+  for (let i = 0; i < weightInputs.length; i++) {
+    const weightInput = weightInputs[i];
+    if (weightInput.value !== "") {
+      totalWeight += parseFloat(weightInput.value);
+      totalInputs++;
     }
+  }
+  
+  const totalWeightElement = document.getElementById(`totalWeight${spec}`);
+  totalWeightElement.textContent = totalWeight;
+  
+  const actualWeightElement = document.getElementById(`actualWeight${spec}`);
+  const waterWeightRatio = parseFloat(document.getElementById("waterWeightRatio").value);
+  const customWaterWeightRatio = document.getElementById("customWaterWeightRatio").value;
+  
+  let actualWeight;
+  if (customWaterWeightRatio !== "") {
+    actualWeight = totalWeight - totalInputs * parseFloat(customWaterWeightRatio);
+  } else {
+    actualWeight = totalWeight - totalInputs * waterWeightRatio;
+  }
+  
+  actualWeightElement.textContent = actualWeight.toFixed(2);
+  
+  const price = parseFloat(document.getElementById(`price${spec}`).value);
+  const totalAmount = actualWeight * price;
+  
+  const totalAmountElement = document.getElementById(`totalAmount${spec}`);
+  totalAmountElement.textContent = totalAmount.toFixed(2);
+}
+
     function toggleSpecVisibility2() {
     var spec = document.getElementById("spec2");
     if (spec.style.display === "none") {
@@ -622,48 +668,11 @@ function addWeight(spec) {
     }
   });
 
-  window.onload = function() {
-        var select = document.getElementById("waterWeightRatio");
-        var customInput = document.getElementById("customWaterWeightRatio");
-        customInput.value = select.value;
-    }
-
-    function handleSelectChange(select) {
-        var customInput = document.getElementById("customWaterWeightRatio");
-        if (select.value === "other") {
-            customInput.disabled = false;
-            customInput.value = "";
-        } else {
-            customInput.disabled = true;
-            customInput.value = select.value;
-        }
-    }
-
-    function updateSpecResult1() {
-      var description = document.getElementById("description1").value;
-      var resultElement = document.getElementById("specresult1");
-      resultElement.innerText = description;
-  }
-    function updateSpecResult2() {
-      var description = document.getElementById("description2").value;
-      var resultElement = document.getElementById("specresult2");
-      resultElement.innerText = description;
-  }
-    function updateSpecResult3() {
-       var description = document.getElementById("description3").value;
-       var resultElement = document.getElementById("specresult3");
-       resultElement.innerText = description;
-  }
-    function updateSpecResult4() {
-       var description = document.getElementById("description4").value;
-       var resultElement = document.getElementById("specresult4");
-       resultElement.innerText = description;
-  }
-    function updateSpecResult5() {
-       var description = document.getElementById("description5").value;
-       var resultElement = document.getElementById("specresult5");
-       resultElement.innerText = description;
-  }
+  function updateSpecResult(specIndex) {
+  var description = document.getElementById("description" + specIndex).value;
+  var resultElement = document.getElementById("specresult" + specIndex);
+  resultElement.innerText = description;
+}
 
   // 取得當前的日期
   var today = new Date();
@@ -698,22 +707,92 @@ function addWeight(spec) {
     });
   });
 
-  window.onload = function() {
-    var select = document.getElementById("bucketWeight");
-    var customInput = document.getElementById("customBucketWeight");
-    customInput.value = select.value;
-}
-  function handleBucketWeightChange(select) {
-    var customInput = document.getElementById("customBucketWeight");
-    if (select.value === "other") {
-        customInput.disabled = false;
-        customInput.value = "";
-    } else {
-        customInput.disabled = true;
-        customInput.value = select.value;
+
+window.onload = function() {
+    var waterWeightSelect = document.getElementById("waterWeightRatio");
+    var bucketWeightSelect = document.getElementById("bucketWeight");
+    var customWaterWeightInput = document.getElementById("customWaterWeightRatio");
+    var customBucketWeightInput = document.getElementById("customBucketWeight");
+
+    customWaterWeightInput.value = waterWeightSelect.value;
+    customBucketWeightInput.value = bucketWeightSelect.value;
+
+    waterWeightSelect.addEventListener("change", function() {
+        if (waterWeightSelect.value === "other") {
+            customWaterWeightInput.disabled = false;
+            customWaterWeightInput.value = "";
+        } else {
+            customWaterWeightInput.disabled = true;
+            customWaterWeightInput.value = waterWeightSelect.value;
+        }
+    });
+
+    bucketWeightSelect.addEventListener("change", function() {
+        if (bucketWeightSelect.value === "other") {
+            customBucketWeightInput.disabled = false;
+            customBucketWeightInput.value = "";
+        } else {
+            customBucketWeightInput.disabled = true;
+            customBucketWeightInput.value = bucketWeightSelect.value;
+        }
+    });
+};
+
+//計算規格1 begin
+
+function calculateTotalWeight() {
+    const weightInputs = document.getElementsByClassName("weightInput");
+    let totalWeight = 0;
+    for (let i = 0; i < weightInputs.length; i++) {
+      const weight = parseFloat(weightInputs[i].value);
+      if (!isNaN(weight)) {
+        totalWeight += weight;
+      }
     }
-}
+    document.getElementById("totalWeight1").textContent = totalWeight.toFixed(2);
+    calculateActualWeight();
+  }
+
+  function calculateActualWeight() {
+    const totalWeight = parseFloat(document.getElementById("totalWeight1").textContent);
+    const waterWeightRatio = parseFloat(document.getElementById("waterWeightRatio").value);
+    const bucketWeight = parseFloat(document.getElementById("bucketWeight").value);
+
+    const numBucketWeight = document.getElementById("bucketWeight").options.length;
+    const customBucketWeight = parseFloat(document.getElementById("customBucketWeight").value);
+    const selectedBucketWeight = numBucketWeight === 11 ? customBucketWeight : bucketWeight;
+
+    const actualWeight = (totalWeight - selectedBucketWeight) * waterWeightRatio;
+    document.getElementById("actualWeight1").textContent = actualWeight.toFixed(2);
+    calculateTotalAmount();
+  }
+
+  function calculateTotalAmount() {
+    const actualWeight = parseFloat(document.getElementById("actualWeight1").textContent);
+    const price = parseFloat(document.getElementById("price1").value);
+    const totalAmount = actualWeight * price;
+    document.getElementById("totalAmount1").textContent = totalAmount.toFixed(2);
+  }
+
+  // Event listeners
+  const weightInputs = document.getElementsByClassName("weightInput");
+  for (let i = 0; i < weightInputs.length; i++) {
+    weightInputs[i].addEventListener("input", calculateTotalWeight);
+  }
+
+  const waterWeightRatioSelect = document.getElementById("waterWeightRatio");
+  waterWeightRatioSelect.addEventListener("change", calculateActualWeight);
+
+  const bucketWeightSelect = document.getElementById("bucketWeight");
+  bucketWeightSelect.addEventListener("change", calculateActualWeight);
+
+  const customBucketWeightInput = document.getElementById("customBucketWeight");
+  customBucketWeightInput.addEventListener("input", calculateActualWeight);
+
+  const priceInput = document.getElementById("price1");
+  priceInput.addEventListener("input", calculateTotalAmount);
+
+//計算規格1 end
   </script>
 </body>
-
 </html>
