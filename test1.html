@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>石斑類 ╴池邊價出貨記帳表</title>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -494,11 +497,15 @@
           <label for="totalAmount">總金額（元）：</label>
           <span id="totalAmount"></span>
         </div>
+        <div>
+          <button class="btn" onclick="generateJPG()">輸出截圖報表</button>
+        </div>
       </div>
     </div>
     
     
   </div>
+  
 
   <script>
 
@@ -810,7 +817,24 @@ window.onload = function() {
   }
 }
 
+function generateJPG() {
+    // Capture the container element
+    const container = document.querySelector('.container');
 
+    // Use the html2canvas library to generate the JPG file
+    html2canvas(container).then(function(canvas) {
+      // Convert the canvas to a JPG image data URL
+      const dataURL = canvas.toDataURL('image/jpeg');
+
+      // Create a link element to download the JPG file
+      const link = document.createElement('a');
+      link.href = dataURL;
+      link.download = 'generated_image.jpg';
+
+      // Simulate a click on the link to trigger the download
+      link.click();
+    });
+  }
 
 
   </script>
