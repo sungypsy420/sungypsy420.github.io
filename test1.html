@@ -284,14 +284,14 @@
         </div>  
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price1" placeholder="一斤價格">
+          <input type="number" id="price1" placeholder="一斤價格" oninput="calculateTotal(1)">
         </div>
       </div> 
       <div id="weightItems1">
 
       </div>
 
-      <button class="btn add-btn" onclick="addWeight(1)">新增一筆</button>
+      <button class="btn add-btn" onclick="addWeight(1)">新增一筆重量</button>
     </div>
     <div>
       <button class="btn" onclick="toggleSpecVisibility('spec2')">規格2</button>
@@ -304,7 +304,7 @@
         </div> 
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price2" placeholder="輸入價格">
+          <input type="number" id="price2" placeholder="一斤價格" oninput="calculateTotal(2)">
         </div>
       </div>
 
@@ -312,7 +312,7 @@
 
       </div>
 
-      <button class="btn add-btn" onclick="addWeight(2)">新增一筆</button>
+      <button class="btn add-btn" onclick="addWeight(2)">新增一筆重量</button>
     </div>
     <div>
       <button class="btn" onclick="toggleSpecVisibility('spec3')">規格3</button>
@@ -325,7 +325,7 @@
         </div> 
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price3" placeholder="輸入價格">
+          <input type="number" id="price3" placeholder="一斤價格" oninput="calculateTotal(3)">
         </div>
       </div>
 
@@ -333,7 +333,7 @@
 
       </div>
 
-      <button class="btn add-btn" onclick="addWeight(3)">新增一筆</button>
+      <button class="btn add-btn" onclick="addWeight(3)">新增一筆重量</button>
     </div>
     <div>
       <button class="btn" onclick="toggleSpecVisibility('spec4')">規格4</button>
@@ -346,7 +346,7 @@
         </div> 
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price4" placeholder="輸入價格">
+          <input type="number" id="price4" placeholder="一斤價格" oninput="calculateTotal(4)">
         </div>
       </div>
 
@@ -354,7 +354,7 @@
 
       </div>
 
-      <button class="btn add-btn" onclick="addWeight(4)">新增一筆</button>
+      <button class="btn add-btn" onclick="addWeight(4)">新增一筆重量</button>
     </div>
     <div>
       <button class="btn" onclick="toggleSpecVisibility('spec5')">規格5</button>
@@ -367,7 +367,7 @@
         </div> 
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price5" placeholder="輸入價格">
+          <input type="number" id="price5" placeholder="一斤價格" oninput="calculateTotal(5)">
         </div>
       </div>
 
@@ -375,7 +375,7 @@
 
       </div>
 
-      <button class="btn add-btn" onclick="addWeight(5)">新增一筆</button>
+      <button class="btn add-btn" onclick="addWeight(5)">新增一筆重量</button>
     </div>
 
 
@@ -509,6 +509,9 @@ function handleSelectChange(select) {
         } else {
           customWaterWeightRatioInput.disabled = true;
         }
+        for (let i = 1; i < 6; i++){
+        calculateTotal(i);
+        }
       }
   
       function handleBucketWeightChange(select) {
@@ -517,6 +520,9 @@ function handleSelectChange(select) {
           customBucketWeightInput.disabled = false;
         } else {
           customBucketWeightInput.disabled = true;
+        }
+        for (let i = 1; i < 6; i++){
+        calculateTotal(i);
         }
       }
 
@@ -747,37 +753,62 @@ window.onload = function() {
         calculateTotalAll();
         
       }
-      function calculateTotalAll() {
-        const totalWeight1 = document.getElementById('totalWeight1').textContent;
-        const totalWeight2 = document.getElementById('totalWeight2').textContent;
-        const totalWeight3 = document.getElementById('totalWeight3').textContent;
-        const totalWeight4 = document.getElementById('totalWeight4').textContent;
-        const totalWeight5 = document.getElementById('totalWeight5').textContent;
-        const actualWeight1 = document.getElementById('actualWeight1').textContent;
-        const actualWeight2 = document.getElementById('actualWeight2').textContent;
-        const actualWeight3 = document.getElementById('actualWeight3').textContent;
-        const actualWeight4 = document.getElementById('actualWeight4').textContent;
-        const actualWeight5 = document.getElementById('actualWeight5').textContent;
-        const totalAmount1 = document.getElementById('totalAmount1').textContent;
-        const totalAmount2 = document.getElementById('totalAmount2').textContent;
-        const totalAmount3 = document.getElementById('totalAmount3').textContent;
-        const totalAmount4 = document.getElementById('totalAmount4').textContent;
-        const totalAmount5 = document.getElementById('totalAmount5').textContent;
-  
-        const totalWeightElement = document.getElementById('totalWeight');
-        const actualWeightElement = document.getElementById('actualWeight');
-        const totalAmountElement = document.getElementById('totalAmount');
-  
-        const totalWeight = parseFloat(totalWeight1) + parseFloat(totalWeight2)+ parseFloat(totalWeight3)+ parseFloat(totalWeight4)+ parseFloat(totalWeight5);
-        const actualWeight = parseFloat(actualWeight1) + parseFloat(actualWeight2)+ parseFloat(actualWeight3)+ parseFloat(actualWeight4)+ parseFloat(actualWeight5);
-        const totalAmount = parseFloat(totalAmount1) + parseFloat(totalAmount2)+ parseFloat(totalAmount3)+ parseFloat(totalAmount4)+ parseFloat(totalAmount5);
-  
-        totalWeightElement.textContent = totalWeight.toFixed(2);
-        actualWeightElement.textContent = actualWeight.toFixed(2);
-        totalAmountElement.textContent = totalAmount.toFixed(2);
+
+      const waterWeightRatioSelect = document.getElementById('waterWeightRatio');
+      waterWeightRatioSelect.addEventListener('change', updateResults);
+
+      const bucketWeightSelect = document.getElementById('bucketWeight');
+      bucketWeightSelect.addEventListener('change', updateResults);
+
+      const priceInput = document.getElementById('price');
+      priceInput.addEventListener('input', updateResults);
+      function updateResults() {
+       calculateTotalAll();
       }
 
 
+      function calculateTotalAll() {
+    const specContainers = document.querySelectorAll('.spec');
+    let totalWeight = 0;
+    let actualWeight = 0;
+    let totalAmount = 0;
+
+    const waterWeightRatio = parseFloat(waterWeightRatioSelect.value);
+    const bucketWeight = parseFloat(bucketWeightSelect.value);
+
+    specContainers.forEach((specContainer) => {
+    const weightInputs = specContainer.querySelectorAll('.weightInput');
+    const priceInput = specContainer.querySelector('input[id^="price"]');
+
+    const price = parseFloat(priceInput.value);
+
+    let specTotalWeight = 0;
+
+    weightInputs.forEach((weightInput) => {
+      const weight = parseFloat(weightInput.value) || 0;
+      specTotalWeight += weight;
+    });
+
+    const specActualWeight = (specTotalWeight - weightInputs.length * bucketWeight) * waterWeightRatio;
+    const specTotalAmount = specActualWeight * price;
+
+    totalWeight += specTotalWeight;
+    actualWeight += specActualWeight;
+
+    // Check if price is a valid number
+    if (!isNaN(specTotalAmount)) {
+      totalAmount += specTotalAmount;
+    }
+  });
+
+  document.getElementById('totalWeight').textContent = totalWeight.toFixed(2);
+  document.getElementById('actualWeight').textContent = actualWeight.toFixed(2);
+
+  // Check if totalAmount is a valid number
+  if (!isNaN(totalAmount)) {
+    document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
+  }
+}
 
 
 
