@@ -503,6 +503,9 @@
         <div>
           <button class="btn" onclick="generateReport()">輸出txt報表</button>
         </div>
+        <div>
+          <button class="btn" onclick="generateExcel()">輸出excel報表</button>
+        </div>
       </div>
     </div>
     
@@ -904,6 +907,84 @@ function generateJPG() {
   const downloadLink = document.createElement('a');
   downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(report);
   downloadLink.download = 'report.txt';
+  downloadLink.style.display = 'none';
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+}
+
+function generateExcel() {
+  const date = document.getElementById('date').value;
+  const kind = document.getElementById('kind').value;
+  const vendor = document.getElementById('vendor').value;
+  const poolName = document.getElementById('poolName').value;
+  const waterWeightRatio = document.getElementById('waterWeightRatio').value;
+  const bucketWeight = document.getElementById('bucketWeight').value;
+  const workpay = document.getElementById('workpay').value;
+  const note = document.getElementById('note').value;
+
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.aoa_to_sheet([
+    ['日期:', date],
+    ['種類:', kind],
+    ['魚販:', vendor],
+    ['魚池名稱:', poolName],
+    ['水重比:', waterWeightRatio],
+    ['桶重:', bucketWeight],
+    ['網工費用:', workpay],
+    ['備註:', note]
+  ]);
+  XLSX.utils.book_append_sheet(workbook, worksheet, '報表');
+
+  for (let i = 1; i <= 5; i++) {
+    const description = document.getElementById(`description${i}`).value;
+    const totalWeight = document.getElementById(`totalWeight${i}`).innerText;
+    const actualWeight = document.getElementById(`actualWeight${i}`).innerText;
+    const totalAmount = document.getElementById(`totalAmount${i}`).innerText;
+
+    if (description) {
+      const detailData = [
+        [`規格${i}:`, description],
+        ['總重量（台斤）：', totalWeight],
+        ['實量（扣桶和水重）：', actualWeight],
+        ['總金額（元）：', totalAmount]
+      ];
+      const detailWorksheet = XLSX.utils.aoa_to_sheet(detailData);
+      XLSX.utils.book_append_sheet(workbook, detailWorksheet, `規格${i}`);
+
+      const weightItems = document.getElementById(`weightItems${i}`).children;
+      if (weightItems.length > 0) {
+        const weightData = [['單筆重量']];
+        for (let j = 0; j < weightItems.length; j++) {
+          const weight = weightItems[j].querySelector('input').value;
+          weightData.push([weight]);
+        }
+        const weightWorksheet = XLSX.utils.aoa_to_sheet(weightData);
+        XLSX.utils.book_append_sheet(workbook, weightWorksheet, `重量${i}`);
+      }
+    }
+  }
+
+  const totalWeightAll = document.getElementById('totalWeight').innerText;
+  const actualWeightAll = document.getElementById('actualWeight').innerText;
+  const totalAmountAll = document.getElementById('totalAmount').innerText;
+
+  const summaryData = [
+    ['全規格'],
+    ['總重量（台斤）：', totalWeightAll],
+    ['實量（扣桶和水重）：', actualWeightAll],
+    ['總金額（元）：', totalAmountAll]
+  ];
+  const summaryWorksheet = XLSX.utils.aoa_to_sheet(summaryData);
+  XLSX.utils.book_append_sheet(workbook, summaryWorksheet, '總規格');
+
+  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  const url = window.URL.createObjectURL(data);
+
+  const downloadLink = document.createElement('a');
+  downloadLink.href = url;
+  downloadLink.download = 'report.xlsx';
   downloadLink.style.display = 'none';
   document.body.appendChild(downloadLink);
   downloadLink.click();
