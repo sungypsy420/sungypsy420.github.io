@@ -93,6 +93,18 @@
       background-color: #4caf50;
     }
 
+    .output1-btn {
+      background-color: #ce4eda;
+    }
+
+    .output2-btn {
+      background-color: #b834c4;
+    }
+
+    .output3-btn {
+      background-color: #bc0bcc;
+    }
+
     .delete-btn {
       background-color: #f44336;
     }
@@ -497,15 +509,16 @@
           <label for="totalAmount">總金額（元）：</label>
           <span id="totalAmount"></span>
         </div>
-        <div>
-          <button class="btn" onclick="generateJPG()">輸出截圖報表</button>
-        </div>
-        <div>
-          <button class="btn" onclick="generateReport()">輸出txt報表</button>
-        </div>
-        <div>
-          <button class="btn" onclick="generateExcel()">輸出excel報表</button>
-        </div>
+
+      </div>
+      <div>
+        <button class="btn output1-btn" onclick="generateJPG()">輸出截圖報表</button>
+      </div>
+      <div>
+        <button class="btn output2-btn" onclick="generateReport()">輸出txt報表</button>
+      </div>
+      <div>
+        <button class="btn output3-btn" onclick="generateExcel()">輸出excel報表</button>
       </div>
     </div>
     
@@ -924,7 +937,9 @@ function generateExcel() {
   const note = document.getElementById('note').value;
 
   const workbook = XLSX.utils.book_new();
-  const worksheet = XLSX.utils.aoa_to_sheet([
+
+  // 總報表分頁
+  const mainSheetData = [
     ['日期:', date],
     ['種類:', kind],
     ['魚販:', vendor],
@@ -932,10 +947,16 @@ function generateExcel() {
     ['水重比:', waterWeightRatio],
     ['桶重:', bucketWeight],
     ['網工費用:', workpay],
-    ['備註:', note]
-  ]);
-  XLSX.utils.book_append_sheet(workbook, worksheet, '報表');
+    ['備註:', note],
+    [],
+    [],
+    ['全規格', '', '', ''],
+    ['總重量（台斤）：', '', '實量（扣桶和水重）：', '總金額（元）：']
+  ];
+  const mainSheet = XLSX.utils.aoa_to_sheet(mainSheetData);
+  XLSX.utils.book_append_sheet(workbook, mainSheet, '總報表');
 
+  // 規格分頁
   for (let i = 1; i <= 5; i++) {
     const description = document.getElementById(`description${i}`).value;
     const totalWeight = document.getElementById(`totalWeight${i}`).innerText;
@@ -943,25 +964,23 @@ function generateExcel() {
     const totalAmount = document.getElementById(`totalAmount${i}`).innerText;
 
     if (description) {
-      const detailData = [
+      const specSheetData = [
         [`規格${i}:`, description],
         ['總重量（台斤）：', totalWeight],
         ['實量（扣桶和水重）：', actualWeight],
-        ['總金額（元）：', totalAmount]
+        ['總金額（元）：', totalAmount],
+        [],
+        ['單筆重量'],
       ];
-      const detailWorksheet = XLSX.utils.aoa_to_sheet(detailData);
-      XLSX.utils.book_append_sheet(workbook, detailWorksheet, `規格${i}`);
 
       const weightItems = document.getElementById(`weightItems${i}`).children;
-      if (weightItems.length > 0) {
-        const weightData = [['單筆重量']];
-        for (let j = 0; j < weightItems.length; j++) {
-          const weight = weightItems[j].querySelector('input').value;
-          weightData.push([weight]);
-        }
-        const weightWorksheet = XLSX.utils.aoa_to_sheet(weightData);
-        XLSX.utils.book_append_sheet(workbook, weightWorksheet, `重量${i}`);
+      for (let j = 0; j < weightItems.length; j++) {
+        const weight = weightItems[j].querySelector('input').value;
+        specSheetData.push([weight]);
       }
+
+      const specSheet = XLSX.utils.aoa_to_sheet(specSheetData);
+      XLSX.utils.book_append_sheet(workbook, specSheet, `規格${i}(${description})`);
     }
   }
 
@@ -969,14 +988,13 @@ function generateExcel() {
   const actualWeightAll = document.getElementById('actualWeight').innerText;
   const totalAmountAll = document.getElementById('totalAmount').innerText;
 
-  const summaryData = [
-    ['全規格'],
-    ['總重量（台斤）：', totalWeightAll],
-    ['實量（扣桶和水重）：', actualWeightAll],
-    ['總金額（元）：', totalAmountAll]
+  const summarySheetData = [
+    ['全規格', '', '', ''],
+    ['總重量（台斤）：', totalWeightAll, '實量（扣桶和水重）：', actualWeightAll],
+    ['', '', '總金額（元）：', totalAmountAll]
   ];
-  const summaryWorksheet = XLSX.utils.aoa_to_sheet(summaryData);
-  XLSX.utils.book_append_sheet(workbook, summaryWorksheet, '總規格');
+  const summarySheet = XLSX.utils.aoa_to_sheet(summarySheetData);
+  XLSX.utils.book_append_sheet(workbook, summarySheet, '總規格');
 
   const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
   const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -990,6 +1008,7 @@ function generateExcel() {
   downloadLink.click();
   document.body.removeChild(downloadLink);
 }
+
 
 
   </script>
