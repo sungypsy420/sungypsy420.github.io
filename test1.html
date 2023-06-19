@@ -837,6 +837,9 @@ window.onload = function() {
 }
 
 function generateJPG() {
+  const date = document.getElementById('date').value;
+  const kind = document.getElementById('kind').value;
+  const poolName = document.getElementById('poolName').value;
     // Capture the container element
     const container = document.querySelector('.container');
 
@@ -848,7 +851,7 @@ function generateJPG() {
       // Create a link element to download the JPG file
       const link = document.createElement('a');
       link.href = dataURL;
-      link.download = 'generated_image.jpg';
+      link.download = `${date}${kind}${poolName}.jpg`;
 
       // Simulate a click on the link to trigger the download
       link.click();
