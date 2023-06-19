@@ -913,7 +913,7 @@ function generateJPG() {
     }
   }
 
-  const txtBlob = new Blob([txtContent], { type: 'text/plain' });
+  const txtBlob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(txtBlob);
 
   const downloadLink = document.createElement('a');
@@ -924,6 +924,7 @@ function generateJPG() {
   downloadLink.click();
   document.body.removeChild(downloadLink);
 }
+
 
 
 function generateExcel() {
