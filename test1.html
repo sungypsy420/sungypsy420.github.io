@@ -915,84 +915,13 @@ function generateJPG() {
 
   const downloadLink = document.createElement('a');
   downloadLink.href = url;
-  downloadLink.download = 'report.txt';
+  downloadLink.download = `${date}${kind}${poolName}.txt`;
   downloadLink.style.display = 'none';
   document.body.appendChild(downloadLink);
   downloadLink.click();
   document.body.removeChild(downloadLink);
 }
 
-
-  function generateReport() {
-  const date = document.getElementById('date').value;
-  const kind = document.getElementById('kind').value;
-  const vendor = document.getElementById('vendor').value;
-  const poolName = document.getElementById('poolName').value;
-  const waterWeightRatio = document.getElementById('waterWeightRatio').value;
-  const bucketWeight = document.getElementById('bucketWeight').value;
-  const workpay = document.getElementById('workpay').value;
-  const note = document.getElementById('note').value;
-
-  let report = `日期: ${date}\n`;
-  report += `種類: ${kind}\n`;
-  report += `魚販: ${vendor}\n`;
-  report += `魚池名稱: ${poolName}\n`;
-  report += `水重比: ${waterWeightRatio}\n`;
-  report += `桶重: ${bucketWeight}\n`;
-  report += `網工費用: ${workpay}\n`;
-  report += `備註: ${note}\n`;
-  report += '===================\n';
-
-  for (let i = 1; i <= 5; i++) {
-    const description = document.getElementById(`description${i}`).value;
-    const totalWeight = document.getElementById(`totalWeight${i}`).innerText;
-    const actualWeight = document.getElementById(`actualWeight${i}`).innerText;
-    const totalAmount = document.getElementById(`totalAmount${i}`).innerText;
-
-    if (description) {
-      report += `規格${i}: ${description}\n`;
-      if (totalWeight) {
-        report += `總重量（台斤）：${totalWeight}\n`;
-      }
-      if (actualWeight) {
-        report += `實量（扣桶和水重）：${actualWeight}\n`;
-      }
-      if (totalAmount) {
-        report += `總金額（元）：${totalAmount}\n`;
-      }
-
-      const weightItems = document.getElementById(`weightItems${i}`).children;
-      if (weightItems.length > 0) {
-        report += '單筆重量：\n';
-        for (let j = 0; j < weightItems.length; j++) {
-          const weight = weightItems[j].querySelector('input').value;
-          report += `${j+1}. ${weight} `;
-        }
-        report += '\n';
-      }
-
-      report += '===================\n';
-    }
-  }
-
-  const totalWeightAll = document.getElementById('totalWeight').innerText;
-  const actualWeightAll = document.getElementById('actualWeight').innerText;
-  const totalAmountAll = document.getElementById('totalAmount').innerText;
-
-  report += '全規格\n';
-  report += `總重量（台斤）：${totalWeightAll}\n`;
-  report += `實量（扣桶和水重）：${actualWeightAll}\n`;
-  report += `總金額（元）：${totalAmountAll}`;
-
-  // Create a <a> element with the report text as a data URI
-  const downloadLink = document.createElement('a');
-  downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(report);
-  downloadLink.download = 'report.txt';
-  downloadLink.style.display = 'none';
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
-  document.body.removeChild(downloadLink);
-}
 
 function generateExcel() {
   const date = document.getElementById('date').value;
@@ -1094,7 +1023,7 @@ function generateExcel() {
 
   const downloadLink = document.createElement('a');
   downloadLink.href = url;
-  downloadLink.download = 'report.xlsx';
+  downloadLink.download = `${date}${kind}${poolName}.xlsx`;
   downloadLink.style.display = 'none';
   document.body.appendChild(downloadLink);
   downloadLink.click();
