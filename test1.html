@@ -922,7 +922,7 @@ function generateJPG() {
     }
   }
 
-  const txtBlob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
+  const txtBlob = new Blob([txtContent], { type: 'text/plain;charset=big5' });
   const url = URL.createObjectURL(txtBlob);
 
   const downloadLink = document.createElement('a');
@@ -1047,7 +1047,7 @@ function generateExcel() {
   </script>
     <footer class="footer">
       <div class="container">
-        &copy; 2023 養殖漁業大數據共享平台. All rights reserved. v.1.1.1
+        &copy; 2023 養殖漁業大數據共享平台. All rights reserved. v.1.1.2
       </div>
     </footer>
 </body>
