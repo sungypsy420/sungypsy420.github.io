@@ -935,66 +935,90 @@ function generateExcel() {
   const bucketWeight = document.getElementById('bucketWeight').value;
   const workpay = document.getElementById('workpay').value;
   const note = document.getElementById('note').value;
+  const totalWeightAll = document.getElementById('totalWeight').innerText;
+  const actualWeightAll = document.getElementById('actualWeight').innerText;
+  const totalAmountAll = document.getElementById('totalAmount').innerText;
 
   const workbook = XLSX.utils.book_new();
 
-  // 總報表分頁
-  const mainSheetData = [
-    ['日期:', date],
-    ['種類:', kind],
-    ['魚販:', vendor],
-    ['魚池名稱:', poolName],
-    ['水重比:', waterWeightRatio],
-    ['桶重:', bucketWeight],
-    ['網工費用:', workpay],
-    ['備註:', note],
-    [],
-    [],
-    ['全規格', '', '', ''],
-    ['總重量（台斤）：', '', '實量（扣桶和水重）：', '總金額（元）：']
-  ];
-  const mainSheet = XLSX.utils.aoa_to_sheet(mainSheetData);
-  XLSX.utils.book_append_sheet(workbook, mainSheet, '總報表');
+  // Create main sheet
+  const mainSheetData = [];
+  mainSheetData.push(['日期:', '種類:', '魚販:', '魚池名稱:', '水重比:', '桶重:', '網工費用:', '備註:']);
+  mainSheetData.push([date, kind, vendor, poolName, waterWeightRatio, bucketWeight, workpay, note]);
+  mainSheetData.push([]);
+  mainSheetData.push([]);
+  mainSheetData.push(['', '規格1', '規格2', '規格3', '規格4', '規格5', '全規格']);
+  mainSheetData.push(['規格名稱']);
+  mainSheetData.push(['總重量']);
+  mainSheetData.push(['實量']);
+  mainSheetData.push(['單價(元/斤)']);
+  mainSheetData.push(['總金額']);
+  mainSheetData.push([]);
+  mainSheetData.push([]);
 
-  // 規格分頁
   for (let i = 1; i <= 5; i++) {
     const description = document.getElementById(`description${i}`).value;
     const totalWeight = document.getElementById(`totalWeight${i}`).innerText;
     const actualWeight = document.getElementById(`actualWeight${i}`).innerText;
     const totalAmount = document.getElementById(`totalAmount${i}`).innerText;
+    const priceInput = document.getElementById(`price${i}`).value;
 
-    if (description) {
-      const specSheetData = [
-        [`規格${i}:`, description],
-        ['總重量（台斤）：', totalWeight],
-        ['實量（扣桶和水重）：', actualWeight],
-        ['總金額（元）：', totalAmount],
-        [],
-        ['單筆重量'],
-      ];
+    mainSheetData[5].push(description);
+    mainSheetData[6].push(totalWeight);
+    mainSheetData[7].push(actualWeight);
+    mainSheetData[8].push(priceInput);
+    mainSheetData[9].push(totalAmount);
+  }
 
-      const weightItems = document.getElementById(`weightItems${i}`).children;
+  mainSheetData[6].push(totalWeightAll);
+  mainSheetData[7].push(actualWeightAll);
+  mainSheetData[9].push(totalAmountAll);
+  mainSheetData[11].push('單筆重量', '規格1', '規格2', '規格3', '規格4', '規格5');
+
+  // 建立一個陣列用於儲存所有規格的單筆重量-begin
+  const weightItemsData = [];
+
+  for (let i = 1; i <= 5; i++) {
+    const weightItems = document.getElementById(`weightItems${i}`).children;
+
+    if (weightItems.length > 0) {
+      const weightRow = [];
+
       for (let j = 0; j < weightItems.length; j++) {
         const weight = weightItems[j].querySelector('input').value;
-        specSheetData.push([weight]);
+        const weightWithNumber = `${j + 1}. ${weight}`;
+        weightRow.push(weightWithNumber);
       }
 
-      const specSheet = XLSX.utils.aoa_to_sheet(specSheetData);
-      XLSX.utils.book_append_sheet(workbook, specSheet, `規格${i}(${description})`);
+      weightItemsData.push(weightRow);
     }
   }
 
-  const totalWeightAll = document.getElementById('totalWeight').innerText;
-  const actualWeightAll = document.getElementById('actualWeight').innerText;
-  const totalAmountAll = document.getElementById('totalAmount').innerText;
+  // 將單筆重量資料依序放入主要工作表中的不同欄位（往右偏移一格）
+  const maxWeightItemsCount = Math.max(...weightItemsData.map(row => row.length));
 
-  const summarySheetData = [
-    ['全規格', '', '', ''],
-    ['總重量（台斤）：', totalWeightAll, '實量（扣桶和水重）：', actualWeightAll],
-    ['', '', '總金額（元）：', totalAmountAll]
-  ];
-  const summarySheet = XLSX.utils.aoa_to_sheet(summarySheetData);
-  XLSX.utils.book_append_sheet(workbook, summarySheet, '總規格');
+  for (let j = 0; j < maxWeightItemsCount; j++) {
+    const rowData = [''].concat(weightItemsData.map(row => row[j] || ''));
+    mainSheetData.push(rowData);
+  }
+
+  mainSheetData.push([]);
+
+  const mainSheet = XLSX.utils.aoa_to_sheet(mainSheetData);
+  const mainSheetName = '總報表';
+  XLSX.utils.book_append_sheet(workbook, mainSheet, mainSheetName);
+
+  // 調整欄位寬度
+  const columnWidths = mainSheetData[0].map(() => ({ width: 15 }));
+  const range = XLSX.utils.decode_range(mainSheet['!ref']);
+  for (let C = range.s.c; C <= range.e.c; ++C) {
+    const colWidth = columnWidths[C].width;
+    if (colWidth > 0) {
+      range.s.r = 0; // 調整起始列索引，這裡設定為標題列的索引
+      mainSheet['!cols'] = mainSheet['!cols'] || [];
+      mainSheet['!cols'][C] = { wch: colWidth };
+    }
+  }
 
   const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
   const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -1008,7 +1032,6 @@ function generateExcel() {
   downloadLink.click();
   document.body.removeChild(downloadLink);
 }
-
 
 
   </script>
