@@ -781,9 +781,9 @@ window.onload = function() {
           }
         }
   
-        totalWeightElement.textContent = totalWeight.toFixed(2);
-        actualWeightElement.textContent = actualWeight.toFixed(2);
-        totalAmountElement.textContent = totalAmount.toFixed(2);
+        totalWeightElement.textContent = totalWeight.toFixed(1);
+        actualWeightElement.textContent = actualWeight.toFixed(1);
+        totalAmountElement.textContent = totalAmount.toFixed(1);
   
         calculateTotalAll();
         
@@ -836,12 +836,12 @@ window.onload = function() {
     }
   });
 
-  document.getElementById('totalWeight').textContent = totalWeight.toFixed(2);
-  document.getElementById('actualWeight').textContent = actualWeight.toFixed(2);
+  document.getElementById('totalWeight').textContent = totalWeight.toFixed(1);
+  document.getElementById('actualWeight').textContent = actualWeight.toFixed(1);
 
   // Check if totalAmount is a valid number
   if (!isNaN(totalAmount)) {
-    document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
+    document.getElementById('totalAmount').textContent = totalAmount.toFixed(1);
   }
 }
 
