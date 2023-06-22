@@ -117,6 +117,11 @@
       background-color: #bc0bcc;
     }
 
+    .output4-btn {
+      background-color: #e42f2f;
+    }
+
+
     .delete-btn {
       background-color: #f44336;
     }
@@ -247,6 +252,9 @@
   <div class="container">
     <h1>池邊價出貨記帳表</h1>
   <div class="form-row">
+    <div>
+      <button class="btn output4-btn" onclick="createShortcut()">新增捷徑到桌面</button>
+    </div>
     <label for="date">選擇日期:</label>
     <input type="date" id="date" style="width: 218px;" onchange="displayFormattedDate()" value="">
 
@@ -1046,6 +1054,27 @@ function generateExcel() {
   document.body.removeChild(downloadLink);
 }
 
+function createShortcut() {
+  // 檢查是否支援 Web Share API
+  if (navigator.share) {
+    navigator.share({
+      title: '您的應用程式名稱',
+      text: '描述您的應用程式',
+      url: '您的網頁 URL'
+    })
+      .then(() => {
+        // 分享成功後，使用 Add to Home Screen API 建立桌面捷徑
+        if (window.addToHomescreen) {
+          window.addToHomescreen();
+        }
+      })
+      .catch((error) => {
+        console.error('分享失敗：', error);
+      });
+  } else {
+    console.error('瀏覽器不支援 Web Share API');
+  }
+}
 
   </script>
     <footer class="footer">
