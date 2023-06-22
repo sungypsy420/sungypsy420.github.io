@@ -1,0 +1,13 @@
+{
+  "name": "池邊價出貨記帳表",
+  "short_name": "池邊記帳表",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/icon/180x180fishicon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
