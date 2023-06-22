@@ -1054,25 +1054,39 @@ function generateExcel() {
   document.body.removeChild(downloadLink);
 }
 
+// function createShortcut() {
+//   // 檢查是否支援 Web Share API
+//   if (navigator.share) {
+//     navigator.share({
+//       title: '池邊價出貨記帳表',
+//       text: '提供快速池邊記帳功能',
+//       url: 'sun https://sungypsy420.github.io/test1.html'
+//     })
+//       .then(() => {
+//         // 分享成功後，使用 Add to Home Screen API 建立桌面捷徑
+//         if (window.addToHomescreen) {
+//           window.addToHomescreen();
+//         }
+//       })
+//       .catch((error) => {
+//         console.error('分享失敗：', error);
+//       });
+//   } else {
+//     console.error('瀏覽器不支援 Web Share API');
+//   }
+// }
+
+
 function createShortcut() {
-  // 檢查是否支援 Web Share API
-  if (navigator.share) {
-    navigator.share({
-      title: '池邊價出貨寄帳表',
-      text: '提供快速池邊記帳功能',
-      url: 'sun https://sungypsy420.github.io/test1.html'
-    })
-      .then(() => {
-        // 分享成功後，使用 Add to Home Screen API 建立桌面捷徑
-        if (window.addToHomescreen) {
-          window.addToHomescreen();
-        }
-      })
-      .catch((error) => {
-        console.error('分享失敗：', error);
-      });
-  } else {
-    console.error('瀏覽器不支援 Web Share API');
+  if ('navigator' in window && 'standalone' in window.navigator && window.navigator.standalone) {
+    // 如果使用者已經在主畫面上，不執行任何操作
+    return;
+  }
+
+  if ('navigator' in window && 'standalone' in window.navigator && window.navigator.standalone === false) {
+    // 如果支援"Add to Home Screen"功能，顯示提示給使用者
+    // 你可以自訂提示內容或使用相應的圖示
+    alert('請點選分享按鈕，然後選擇「新增到主畫面」');
   }
 }
 
