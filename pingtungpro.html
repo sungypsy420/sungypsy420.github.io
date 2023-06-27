@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>屏東區池邊價平台</title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <style>
+    /* 共用樣式 */
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      position: relative;
+    }
+    /* 導覽列樣式 */
+.navbar {
+  background-color: #000;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.navbar-brand {
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: fit-content;
+}
+
+.navbar-toggler-icon {
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.navbar-nav .nav-link {
+  color: #fff;
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+/* 頁面樣式 */
+.section {
+  padding: 100px 0;
+  text-align: center;
+  color: #000;
+}
+
+h2 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+/* 背景樣式 */
+#quote {
+  background-color: #f2f2f2;
+  color: #000;
+}
+
+#search {
+  background-color: #fff;
+  color: #000;
+}
+
+#accounting {
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+/* 容器樣式 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 按鈕樣式 */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #333;
+}
+
+/* 淡入效果 */
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+/* 頁尾樣式 */
+.footer {
+  background-color: #000;
+  padding: 20px 0;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* 回到頁首箭頭 */
+.scroll-to-top {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  display: none;
+  width: 50px;
+  height: 50px;
+  background-color: #333;
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 50%;
+  z-index: 999;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.scroll-to-top:hover {
+  background-color: #555;
+}
+
+/* 規定圖片樣式 */
+.rule-images {
+  display: none;
+  margin-top: 20px;
+}
+
+.rule-images img {
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+.show-rule-images {
+  display: block;
+}
+
+/* 修正手機版排版 */
+@media (max-width: 767px) {
+  .navbar-brand {
+    margin-left: 15px;
+    margin-right: 15px;
+    text-align: left;
+    width: auto;
+  }
+  .navbar-toggler {
+    margin-right: 15px;
+  }
+  .navbar-nav {
+    padding-top: 20px;
+  }
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #000;
+    transition: max-height 0.5s;
+    max-height: 0;
+    overflow: hidden;
+    z-index: 999;
+  }
+  .navbar-collapse.show {
+    max-height: 1000px;
+  }
+  .navbar-nav .nav-link {
+    display: block;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0;
+    border-bottom: 1px solid #333;
+  }
+}
+</style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">屏東區池邊價平台</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" onclick="toggleNavbar()">&#9776;</span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#quote">報價</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#search">搜尋</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#accounting" onclick="showRuleImages()">規定</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <section id="quote" class="section">
+    <div class="container">
+      <h2>池邊價報價</h2>
+      <p>點選下面你要報價的項目</p>
+      <a href="https://forms.gle/6NzaZSC8dLssFpoY6" class="btn">成魚(蝦)報價</a>
+      <a href="https://forms.gle/uJKE8PRwHqYKKyDw8" class="btn">苗報價</a>
+    </div>
+  </section>
+  <section id="search" class="section">
+    <div class="container">
+      <h2>搜尋歷史價格</h2>
+      <p>點選下面按鈕選取你要的查詢項目</p>
+      <a href="https://reurl.cc/jG4qry" class="btn">成魚(蝦)查詢</a>
+      <a href="https://reurl.cc/D9b3E9" class="btn">苗查詢</a>
+    </div>
+  </section>
+  <section id="accounting" class="section">
+    <div class="container">
+      <h2>養殖規定</h2>
+      <p>請點選下方按鈕查看養殖規定</p>
+      <button class="btn" onclick="showRuleImages()">查看養殖規定</button>
+      <div class="rule-images">
+        <img src="/pic/r1.jpg" alt="Rule 1">
+        <img src="/pic/r2.jpg" alt="Rule 2">
+        <img src="/pic/r3.jpg" alt="Rule 3">
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="container">
+      © 2023 屏東區池邊價平台. All rights reserved.
+    </div>
+  </footer>
+  <div class="scroll-to-top" onclick="scrollToTop()">&#8593;</div>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script>
+    // 監聽視窗捲動事件
+    window.addEventListener("scroll", function () {
+      var scrollHeight = window.pageYOffset;
+      var windowHeight = window.innerHeight;
+      var scrollPosition = scrollHeight + windowHeight;
+
+      // 如果捲動位置超過 500px，就顯示「回到頁首」的箭頭圖示
+      if (scrollPosition > 500) {
+        document.querySelector(".scroll-to-top").style.display = "block";
+      } else {
+        document.querySelector(".scroll-to-top").style.display = "none";
+      }
+    });
+
+    // 點擊「回到頁首」的箭頭圖示，捲動回頁面頂端
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    // 切換導覽列顯示/隱藏
+    function toggleNavbar() {
+      var navbarCollapse = document.querySelector("#navbarNav");
+      if (navbarCollapse.classList.contains("show")) {
+        navbarCollapse.classList.remove("show");
+      } else {
+        navbarCollapse.classList.add("show");
+      }
+    }
+
+    // 顯示養殖規定圖片
+    function showRuleImages() {
+      var ruleImages = document.querySelector(".rule-images");
+      ruleImages.classList.toggle("show-rule-images");
+    }
+  </script>
+</body>
+</html>
