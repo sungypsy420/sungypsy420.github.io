@@ -108,9 +108,13 @@ p {
   background-color: #fff;
   color: #000;
 }
+#tool {
+  background-color: #f9f9f9;
+  color: #000;
+}
 
 #accounting {
-  background-color: #f9f9f9;
+  background-color: #fff;
   color: #000;
 }
 
@@ -231,6 +235,30 @@ p {
     border-bottom: 1px solid #333;
   }
 }
+
+.new-feature {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.new-text {
+  color: red;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
 </style>
 </head>
 <body>
@@ -270,14 +298,24 @@ p {
       <h2>搜尋歷史價格</h2>
       <p>點選下面按鈕選取你要的查詢項目</p>
       <a href="https://reurl.cc/jG4qry" class="btn">成魚(蝦)查詢</a>
-      <a href="https://reurl.cc/D9b3E9" class="btn">苗查詢</a>
+      <a href="https://reurl.cc/RX7AYn" class="btn">苗查詢</a>
     </div>
   </section>
+  <section id="tool" class="section">
+    <div class="container">
+      <h2><span class="new-text">new</span></span>池邊記帳工具 <span class="new-feature"></h2>
+      <p>點選下面按鈕選取你要的工具</p>
+      <a href="toolcal1.html" class="btn" target="_blank">池邊記帳表</a>
+      <a href="" class="btn">其他</a>
+    </div>
+  </section>
+  
+  
   <section id="accounting" class="section">
     <div class="container">
-      <h2>養殖規定</h2>
-      <p>請點選下方按鈕查看養殖規定</p>
-      <button class="btn" onclick="showRuleImages()">查看養殖規定</button>
+      <h2>平台規定</h2>
+      <p>請點選下方按鈕查看平台規定</p>
+      <button class="btn" onclick="showRuleImages()">查看平台規定</button>
       <div class="rule-images">
         <img src="/pic/r1.jpg" alt="Rule 1">
         <img src="/pic/r2.jpg" alt="Rule 2">
@@ -372,7 +410,7 @@ p {
     link.addEventListener("click", hideNavbar);
   });
 
-    // 顯示養殖規定圖片
+    // 顯示規定圖片
     function showRuleImages() {
       var ruleImages = document.querySelector(".rule-images");
       ruleImages.classList.toggle("show-rule-images");
