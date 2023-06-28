@@ -244,6 +244,7 @@ p {
 .new-text {
   color: red;
   animation: blink 1s infinite;
+  font-size: 20px; /* 调整字体大小为 12 像素 */
 }
 
 @keyframes blink {
@@ -257,6 +258,21 @@ p {
     opacity: 1;
   }
 }
+.animate-icon {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 
 </style>
@@ -266,7 +282,7 @@ p {
     <a class="navbar-brand" href="#">屏東區池邊價平台</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon" onclick="toggleNavbar()">&#9776;</span>
+      <span class="navbar-toggler-icon animate-icon" onclick="toggleNavbar()">&#9776;</span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
