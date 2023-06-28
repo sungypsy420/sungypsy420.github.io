@@ -6,6 +6,40 @@
   <title>屏東區池邊價平台</title>
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <style>
+
+
+.qa-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+    }
+
+    .qa-container h3 {
+      margin: 0;
+      font-size: 24px;
+      color: #333;
+    }
+    .qa-container h3 strong {
+    font-size: 36px;
+    }
+    .qa-container p {
+      margin-top: 10px;
+      line-height: 1.5;
+      color: #666;
+      text-align: justify;
+    }
+
+    .qa-container p strong {
+      color: #000;
+    }
+
+    .qa-container p em {
+      font-style: italic;
+    }
+
+
     /* 共用樣式 */
     body {
       font-family: "Helvetica Neue", Arial, sans-serif;
@@ -217,6 +251,9 @@ p {
         <li class="nav-item">
           <a class="nav-link" href="#accounting" onclick="showRuleImages()">規定</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#question">QA(問題集)</a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -248,6 +285,40 @@ p {
       </div>
     </div>
   </section>
+  <section id="question" class="section">
+    <div class="container">
+      <div class="qa-container">
+        <h3><strong>QA (問題集)</strong></h3>
+        <p><strong>Q1: 是否可以自行拉人到群組？</strong></p>
+        <p><em>A: 不行，需要請對方填申請表單，通過後管理者會開權限且邀至line群組。新人申請表單：<a href="https://forms.gle/XLEMNWYPPuqH26667">https://forms.gle/XLEMNWYPPuqH26667</a></em></p>
+        
+        <p><strong>Q2: 是否可以銀幕截圖群組報價或網頁的歷史報價流出？</strong></p>
+        <p><em>A: 不行，但你可以用你自己打字或口說的方式簡單不要太詳細的讓別人知道。例如：“聽說午仔120元”</em></p>
+        
+        <p><strong>Q3: 什麼人可以加入平台？</strong></p>
+        <p><em>A: 目前開放給有養殖成魚的漁民，魚販/仲介/苗場不開放加入<br>
+           如果有養成魚且又有養苗的還是可以加入，但請不要報苗的價格。</em></p>
+        
+        <p><strong>Q4: 如果發現平台群組成員有條件不符合的如何檢舉？</strong></p>
+        <p><em>A: 請私訊文太或佳琪，我們一定會保護您的隱私。</em></p>
+        
+        <p><strong>Q5: 如果發現有人截圖流出怎麼處理？</strong></p>
+        <p><em>A: 請私訊文太或佳琪，我們一定會保護您的隱私。</em></p>
+        
+        <p><strong>Q6: 發現某筆報價，價格跟現況差距太大，你覺得可能不正確，怎麼辦？</strong></p>
+        <p><em>A: 請私訊文太或佳琪，我們一定會保護您的隱私。</em></p>
+        
+        <p><strong>Q7: 如果發現自己價格報錯怎麼處理？</strong></p>
+        <p><em>A: 請重新報價，且在備註欄打上“修正上筆資料”</em></p>
+        
+        <p><strong>Q8: 平台是否有違反公平交易法之集體哄抬價格?</strong></p>
+        <p><em>A: 公平交易委員會明確表示本平台沒有觸犯到任何一項公平交易法的紅線，並且沒有違反公平交易法第19條規定的集體哄抬價格行為。</em></p>
+        
+        <p><strong>Q9: 報錯價怎麼辦</strong></p>
+        <p><em>A: 請重新報價，並在「備註」打上“上一筆打錯”</em></p>
+      </div>
+    </div>
+  </section>
   <footer class="footer">
     <div class="container">
       © 2023 屏東區池邊價平台. All rights reserved.
@@ -255,6 +326,7 @@ p {
   </footer>
   <div class="scroll-to-top" onclick="scrollToTop()">&#8593;</div>
   <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script>
     // 監聽視窗捲動事件
     window.addEventListener("scroll", function () {
@@ -287,6 +359,18 @@ p {
         navbarCollapse.classList.add("show");
       }
     }
+
+      // 隱藏導覽列
+  function hideNavbar() {
+    var navbarCollapse = document.querySelector("#navbarNav");
+    navbarCollapse.classList.remove("show");
+  }
+
+  // 監聽導覽列連結點擊事件，點擊後隱藏導覽列
+  var navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", hideNavbar);
+  });
 
     // 顯示養殖規定圖片
     function showRuleImages() {
