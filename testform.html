@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+      function validateEmail() {
+        var email = document.getElementById('email').value;
+        google.script.run.withSuccessHandler(showValidationResult).validateEmail(email);
+      }
+      
+      function showValidationResult(result) {
+        if (result === true) {
+          // 驗證通過，提交表單
+          document.getElementById('myForm').submit();
+        } else {
+          // 驗證失敗，顯示錯誤訊息
+          document.getElementById('error').textContent = '只有特定的 Gmail 帳號可以填寫此表單。';
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <form id="myForm" action="https://script.google.com/macros/s/AKfycbyxvvbVsAM4lu4u9HzYn68g-XIaDxZpmji7dImq_ea8CzaI0F2jFaG2Xh2U7yo6c79v/exec" method="post">
+      <label for="email">電子郵件地址:</label>
+      <input type="email" id="email" name="email" required>
+      <span id="error"></span>
+      <br>
+      <input type="button" value="提交" onclick="validateEmail()">
+    </form>
+  </body>
+</html>
