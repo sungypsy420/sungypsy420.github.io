@@ -65,8 +65,13 @@
   margin-right: auto;
   text-align: center;
   width: fit-content;
+  animation: shimmer 2s infinite;
 }
-
+@keyframes shimmer {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
 .navbar-toggler-icon {
   position: absolute;
   top: 30px; /* 调整图标的上边距 */
@@ -213,6 +218,7 @@ p {
     margin-right: 15px;
     text-align: left;
     width: auto;
+    animation: shimmer 2s infinite;
   }
   .navbar-toggler {
     margin-right: 15px;
