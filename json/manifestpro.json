@@ -1,0 +1,13 @@
+{
+  "name": "屏東區池邊價平台",
+  "short_name": "屏東區池邊價平台",
+  "start_url": "https://sungypsy420.github.io/pingtungpro.html",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/icon/16x16fishicon.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ]
+}
