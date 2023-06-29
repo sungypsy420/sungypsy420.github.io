@@ -371,7 +371,8 @@ p {
       <div class="qa-container">
         <h3><strong>QA (問題集)</strong></h3>
         <p><strong>Q1: 是否可以自行拉人到群組？</strong></p>
-        <p><em>A: 不行，需要請對方填申請表單，通過後管理者會開權限且邀至line群組。新人申請表單：<a href="https://forms.gle/XLEMNWYPPuqH26667">https://forms.gle/XLEMNWYPPuqH26667</a></em></p>
+        <p><em>A: 不行，需要請對方填申請表單，通過後管理者會開權限且邀至line群組。</em></p>
+        <button id="copyButton">複製新人申請表單</button>
         
         <p><strong>Q2: 是否可以銀幕截圖群組報價或網頁的歷史報價流出？</strong></p>
         <p><em>A: 不行，但你可以用你自己打字或口說的方式簡單不要太詳細的讓別人知道。例如：“聽說午仔120元”</em></p>
@@ -458,6 +459,31 @@ p {
       var ruleImages = document.querySelector(".rule-images");
       ruleImages.classList.toggle("show-rule-images");
     }
+
+    document.getElementById("copyButton").addEventListener("click", function() {
+    var formLink = "https://forms.gle/XLEMNWYPPuqH26667";
+
+    // 创建一个新的textarea元素
+    var textarea = document.createElement("textarea");
+
+    // 将表单链接设置为textarea的值
+    textarea.value = formLink;
+
+    // 将textarea添加到文档中
+    document.body.appendChild(textarea);
+
+    // 选择textarea中的文本
+    textarea.select();
+
+    // 执行复制命令
+    document.execCommand("copy");
+
+    // 删除textarea元素
+    document.body.removeChild(textarea);
+
+    // 提示用户已成功复制链接
+    alert("已複製新人申請表單連結！");
+  });
   </script>
 </body>
 </html>
