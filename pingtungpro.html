@@ -289,10 +289,23 @@ p {
   }
 }
 
+.nav-item:hover .shortcut-options {
+    display: block;
+  }
 
+  @media (max-width: 768px) {
+    .nav-item .shortcut-options {
+      display: none;
+    }
+
+    .nav-item.active .shortcut-options {
+      display: block;
+    }
+  }
 </style>
 </head>
 <body>
+
   <nav class="navbar navbar-expand-lg d-flex justify-content-center">
     <a class="navbar-brand" href="#">屏東區池邊價平台</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -319,6 +332,13 @@ p {
         <li class="nav-item">
           <a class="nav-link" href="#question">QA(問題集)</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#tutorial">新增捷徑教學</a>
+          <div class="shortcut-options">
+            <a href="tutorialAndroidlink.html">Android手機捷徑教學</a>
+            <a href="tutorialioslink.html">iPhone捷徑教學</a>
+          </div>
+        </li>              
       </ul>
     </div>
   </nav>
@@ -485,6 +505,28 @@ p {
 
     // 提示用户已成功复制链接
     alert("已複製新人申請表單連結！");
+  });
+
+  $(document).ready(function() {
+    // 點擊手機導覽列時展開/收起子選單
+    $('.nav-link[href="#tutorial"]').click(function(e) {
+      e.preventDefault();
+      $(this).parent().toggleClass('active');
+    });
+
+    // 電腦版鼠標懸停時顯示/隱藏子選單
+    $('.nav-item').hover(
+      function() {
+        if ($(window).width() > 768) {
+          $(this).find('.shortcut-options').css('display', 'block');
+        }
+      },
+      function() {
+        if ($(window).width() > 768) {
+          $(this).find('.shortcut-options').css('display', 'none');
+        }
+      }
+    );
   });
   </script>
 </body>
