@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>網頁加入捷徑教學</title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="bootstrap/js/bootstrap.bundle.min.js"></script>  
+  <style>
+    /* 共用樣式 */
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* 頁面樣式 */
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    /* 按鈕樣式 */
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .button:hover {
+      background-color: #333;
+    }
+
+    .button.disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .button-container .disabled-message {
+      font-size: 16px;
+      color: #999;
+    }
+        /* 頁尾樣式 */
+        .footer {
+    position: fixed; /* 固定定位 */
+    bottom: 0; /* 與底部的距離 */
+    left: 0; /* 與左側的距離 */
+    right: 0; /* 與右側的距離 */
+    background-color: #000;
+    padding: 10px 0;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+  }
+  .content {
+    margin-bottom: 40px; /* 頁尾高度 + 額外的間距 */
+  }
+  
+  .navbar-brand img {
+    max-width: 5px; /* 調整 logo 的最大寬度 */
+    height: auto; /* 讓高度根據寬度自動調整 */
+    margin-right: 10px; /* 調整 logo 與文字之間的間距 */
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>網頁加入捷徑教學</h1>
+    <p>為了方便大家使用，所以來教如何把池邊價網頁加到桌面捷徑。</p>
+    <p>以後手機桌面就會有像APP一樣的<img src="/icon/32x32fishicon.png" alt="Logo">圖示捷徑，</p>
+    <p>只要到桌面點捷徑就可以使用報價、查價、池邊記帳工具等功能。</p>
+    <p>因為蘋果手機和非蘋果手機設定方法不一樣。</p>
+    <p>請大家點選下面適合你的手機的教學。</p>
+      <div class="button-container">
+        <a class="button" href="tutorialAndroidlink.html" onclick="joinPlatform('非蘋果手機')">非蘋果手機教學</a>
+      </div>
+      <div class="button-container">
+        <a class="button" href="tutorialioslink.html" onclick="joinPlatform('蘋果手機')">蘋果手機教學</a>
+      </div>
+      </div>
+      <div class="button-container">
+        <button class="button" onclick="goToptpro()">返回屏東池邊價平台</button>
+      </div>
+    </div>
+    <script>
+      function joinPlatform(area) {
+        console.log('加入' + area + '水產池邊價平台');
+      }
+  
+      function goToptpro() {
+        window.location.href = "pingtungpro.html";
+      }
+    </script>
+      <footer class="footer">
+        <div class="container">
+          &copy; 2023 養殖漁業大數據共享平台. All rights reserved.
+        </div>
+      </footer>
+  </body>
+  </html>      
