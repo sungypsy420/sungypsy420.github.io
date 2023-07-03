@@ -138,6 +138,10 @@ p {
   background-color: #f2f2f2;
   color: #000;
 }
+#register {
+  background-color: #fff;
+  color: #000;
+}
 /* 容器樣式 */
 .container {
   max-width: 1200px;
@@ -323,6 +327,9 @@ p {
           <a class="nav-link" href="#contactus">聯絡我們</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="#register">新會員加入<span class="new-text">new</span></a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="#question">QA(問題集)</a>
         </li>
         <li class="nav-item">
@@ -353,8 +360,7 @@ p {
     <div class="container">
       <h2><span class="new-text">new</span></span>池邊記帳工具 <span class="new-feature"></h2>
       <p>點選下面按鈕選取你要的工具</p>
-      <a href="toolcal1.html" class="btn" target="_blank">池邊記帳表</a>
-      <a href="" class="btn">其他</a>
+      <a href="toolcal1.html" class="btn" target="_blank">池邊記帳工具</a>
     </div>
   </section>
   <section id="accounting" class="section">
@@ -378,13 +384,20 @@ p {
       <a href="https://line.me/ti/p/z2KnDDfQq5" class="btn">加佳琪line</a>
     </div>
   </section>
+  <section id="register" class="section">
+    <div class="container">
+      <h2>會員加入</h2>
+      <p>下面按鈕會有會員加入方法</p>
+      <a href="pt_platform.html" class="btn">加入屏東區池邊架平台</a>
+    </div>
+  </section>
   <section id="question" class="section">
     <div class="container">
       <div class="qa-container">
         <h3><strong>QA (問題集)</strong></h3>
         <p><strong>Q1: 是否可以自行拉人到群組？</strong></p>
         <p><em>A: 不行，需要請對方填申請表單，通過後管理者會開權限且邀至line群組。</em></p>
-        <button id="copyButton">複製新人申請表單</button>
+        <button id="copyButton">複製新人申請網頁給朋友</button>
         
         <p><strong>Q2: 是否可以銀幕截圖群組報價或網頁的歷史報價流出？</strong></p>
         <p><em>A: 不行，但你可以用你自己打字或口說的方式簡單不要太詳細的讓別人知道。例如：“聽說午仔120元”</em></p>
@@ -473,7 +486,7 @@ p {
     }
 
     document.getElementById("copyButton").addEventListener("click", function() {
-    var formLink = "https://forms.gle/XLEMNWYPPuqH26667";
+    var formLink = "https://sungypsy420.github.io/pt_platform.html";
 
     // 创建一个新的textarea元素
     var textarea = document.createElement("textarea");
