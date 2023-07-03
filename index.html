@@ -30,6 +30,11 @@
       text-align: center; /* 新增這一行 */
       width: fit-content; /* 新增這一行 */
     }
+    .navbar-brand img {
+    max-width: 60px; /* 調整 logo 的最大寬度 */
+    height: auto; /* 讓高度根據寬度自動調整 */
+    margin-right: 10px; /* 調整 logo 與文字之間的間距 */
+  }
 
     .navbar-nav .nav-link {
       color: #fff;
@@ -141,13 +146,23 @@
     .back-to-top:hover {
       background-color: #333;
     }
+    .navbar-toggler-icon {
+  position: absolute;
+  top: 30px; /* 调整图标的上边距 */
+  right: 10px; /* 调整图标的右边距 */
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  filter: brightness(1000%);
+}
+    
   </style>
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg">
     <div class="container">
-      <a class="navbar-brand" href="#">養殖漁業大數據共享平台</a>
+      <a class="navbar-brand"><img src="/icon/logow.png" alt="Logo">養殖漁業大數據共享平台</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
