@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Google Sheets API Example</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+  </head>
+  <body>
+    <label for="name-input">請輸入姓名：</label>
+    <input type="text" id="name-input" />
+    <button onclick="searchName()">搜尋</button>
+    <p id="output"></p>
+
+    <script>
+      // 當網頁載入完成後初始化 Google Sheets API
+      function init() {
+        gapi.client.init({
+          apiKey: 'AIzaSyBdd2vPLIabGQr1Voycmz9b79F0BqFj8NE',
+          discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+        }).then(function() {
+          // 載入 Google Sheets API 完成後，執行其他程式碼
+          console.log('Google Sheets API 已載入');
+        }, function(error) {
+          console.log('載入 Google Sheets API 時發生錯誤：', error);
+        });
+      }
+
+      // 搜尋姓名並輸出帳號資料
+      function searchName() {
+        var name = $('#name-input').val();
+
+        gapi.client.sheets.spreadsheets.values
+          .get({
+            spreadsheetId: '1yLgvae3Smi2ir1Egrpe5inIkFjbJM3OxcJQFoC_MXNc',
+            range: '工作1!F:F', // 指定要搜尋的欄位範圍
+          })
+          .then(function (response) {
+            var values = response.result.values;
+
+            // 在F欄位中尋找匹配的姓名
+            for (var i = 0; i < values.length; i++) {
+              if (values[i][0] === name) {
+                var accountData = values[i][4]; // 對應J欄位的資料
+                $('#output').text('你的帳號為：' + accountData);
+                return;
+              }
+            }
+
+            // 如果找不到匹配的姓名
+            $('#output').text('找不到相應的帳號資料');
+          });
+      }
+
+      // 載入 Google Sheets API
+      gapi.load('client', init);
+    </script>
+
+    <!-- 替換成您的 API 金鑰和 Google Sheets 文件 ID -->
+    <script src="https://apis.google.com/js/api.js?key=AIzaSyBdd2vPLIabGQr1Voycmz9b79F0BqFj8NE"></script>
+  </body>
+</html>

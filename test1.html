@@ -5,8 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>池邊價出貨記帳表</title>
-  <link rel="manifest" href="/json/manifest.json">
-  <link rel="apple-touch-icon" sizes="180x180" href="/icon/180x180fishicon.png">
+  <link rel="apple-touch-icon" sizes="32x32" href="/icon/32x32fishicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/icon/32x32fishicon.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/icon/32x32fishicon.png">
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -117,11 +116,9 @@
     .output3-btn {
       background-color: #bc0bcc;
     }
-
-    .output4-btn {
-      background-color: #e42f2f;
+    .goptptl-btn {
+      background-color: #050505;
     }
-
 
     .delete-btn {
       background-color: #f44336;
@@ -172,7 +169,7 @@
     .spec-header #description3,
     .spec-header #description4,
     .spec-header #description5 {
-      width: 120px;
+      width: 70px;
     }
 
     .spec-header #price1,
@@ -180,7 +177,7 @@
     .spec-header #price3,
     .spec-header #price4,
     .spec-header #price5 {
-      width: 67px;
+      width: 50px;
     }
     .spec {
     display: none; /* 預設隱藏 */
@@ -246,6 +243,7 @@
        height: 20px; /* 自行調整高度 */
      }
 
+
   </style>
 </head>
 
@@ -253,11 +251,8 @@
   <div class="container">
     <h1>池邊價出貨記帳表</h1>
   <div class="form-row">
-    <div>
-      <button class="btn output4-btn" onclick="createShortcut()">新增捷徑到桌面</button>
-    </div>
     <label for="date">選擇日期:</label>
-    <input type="date" id="date" style="width: 218px;" onchange="displayFormattedDate()" value="">
+    <input type="date" id="date" style="width: 180px;" onchange="displayFormattedDate()" value="">
 
     <label for="kind">種類:</label>
     <select id="kind">
@@ -271,7 +266,7 @@
       <option value="草蝦">草蝦</option>
       <option value="其他">其他</option>
     </select>
-    <input type="text" id="customKind" placeholder="自訂種類" style="display: none; width: 118px;white-space: nowrap;" >
+    <input type="text" id="customKind" placeholder="自訂種類" style="display: none; width: 140px;white-space: nowrap;" >
   </div>
   <div class="form-row">
     <label for="vendor">魚販:</label>
@@ -291,15 +286,16 @@
 
     <label for="bucketWeight">桶重(斤):</label>
     <select id="bucketWeight" onchange="handleBucketWeightChange(this)">
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5" selected>5</option>
+      <option value="5"selected>5</option>
+      <option value="5.5">5.5</option>
       <option value="6">6</option>
+      <option value="6.5">6.5</option>
       <option value="7">7</option>
+      <option value="7.5">7.5</option>
       <option value="8">8</option>
+      <option value="8.5">8.5</option>
       <option value="9">9</option>
+      <option value="9.5">9.5</option>
       <option value="10">10</option>
       <option value="other">其他</option>
   </select>
@@ -316,11 +312,11 @@
       <div class="spec-header">
         <div class="spec-title">規格 1</div>
         <div class="spec-description">
-          <input type="text" id="description1" placeholder="輸入規格如8兩" oninput="updateSpecResult(1)">
+          <input type="text" id="description1" placeholder="規格如8兩" oninput="updateSpecResult(1)">
         </div>  
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price1" placeholder="一斤價格" oninput="calculateTotal(1)">
+          <input type="number" id="price1" placeholder="1斤價" oninput="calculateTotal(1)">
         </div>
       </div> 
       <div id="weightItems1">
@@ -336,11 +332,11 @@
       <div class="spec-header">
         <div class="spec-title">規格 2</div>
         <div class="spec-description">
-          <input type="text" id="description2" placeholder="輸入規格如8兩" oninput="updateSpecResult(2)">
+          <input type="text" id="description2" placeholder="規格如8兩" oninput="updateSpecResult(2)">
         </div> 
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price2" placeholder="一斤價格" oninput="calculateTotal(2)">
+          <input type="number" id="price2" placeholder="1斤價" oninput="calculateTotal(2)">
         </div>
       </div>
 
@@ -357,11 +353,11 @@
       <div class="spec-header">
         <div class="spec-title">規格 3</div>
         <div class="spec-description">
-          <input type="text" id="description3" placeholder="輸入規格如8兩" oninput="updateSpecResult(3)">
+          <input type="text" id="description3" placeholder="規格如8兩" oninput="updateSpecResult(3)">
         </div> 
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price3" placeholder="一斤價格" oninput="calculateTotal(3)">
+          <input type="number" id="price3" placeholder="1斤價" oninput="calculateTotal(3)">
         </div>
       </div>
 
@@ -378,11 +374,11 @@
       <div class="spec-header">
         <div class="spec-title">規格 4</div>
         <div class="spec-description">
-          <input type="text" id="description4" placeholder="輸入規格如8兩" oninput="updateSpecResult(4)">
+          <input type="text" id="description4" placeholder="規格如8兩" oninput="updateSpecResult(4)">
         </div> 
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price4" placeholder="一斤價格" oninput="calculateTotal(4)">
+          <input type="number" id="price4" placeholder="1斤價" oninput="calculateTotal(4)">
         </div>
       </div>
 
@@ -399,11 +395,11 @@
       <div class="spec-header">
         <div class="spec-title">規格 5</div>
         <div class="spec-description">
-          <input type="text" id="description5" placeholder="輸入規格如8兩" oninput="updateSpecResult(5)">
+          <input type="text" id="description5" placeholder="規格如8兩" oninput="updateSpecResult(5)">
         </div> 
         <div class="text">單價</div> 
         <div>
-          <input type="number" id="price5" placeholder="一斤價格" oninput="calculateTotal(5)">
+          <input type="number" id="price5" placeholder="1斤價" oninput="calculateTotal(5)">
         </div>
       </div>
 
@@ -542,8 +538,10 @@
         <button class="btn output3-btn" onclick="generateExcel()">輸出excel報表</button>
       </div>
     </div>
-    
-    
+    <br>
+    <div style="text-align: center;">
+      <button class="btn goptptl-btn" onclick="window.location.href='pingtungpro.html'">前往屏東區池邊價平台</button>
+    </div>    
   </div>
   
 
@@ -585,9 +583,23 @@ function handleSelectChange(select) {
         weightIndex.textContent = index;
   
         const weightInput = document.createElement('input');
+        weightInput.style.width = '120px';
         weightInput.classList.add('weightInput');
+        weightInput.setAttribute('type', 'number');
         weightInput.placeholder = '輸入單筆重量';
         weightInput.addEventListener('input', () => calculateTotal(specNum));
+        weightInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+        event.preventDefault(); // 阻止回车键默认的换行行为
+        addWeight(specNum);
+        setTimeout(() => {
+        const weightItems = document.getElementById(`weightItems${specNum}`);
+        const weightInputs = weightItems.querySelectorAll('.weightInput');
+        const lastWeightInput = weightInputs[weightInputs.length - 1];
+        lastWeightInput.focus();
+       }, 0);
+       }
+       });
   
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('btn', 'delete-btn');
@@ -1008,7 +1020,7 @@ function generateExcel() {
 
       for (let j = 0; j < weightItems.length; j++) {
         const weight = weightItems[j].querySelector('input').value;
-        const weightWithNumber = `${j + 1}. ${weight}`;
+        const weightWithNumber = `${weight}`;
         weightRow.push(weightWithNumber);
       }
 
@@ -1020,7 +1032,12 @@ function generateExcel() {
   const maxWeightItemsCount = Math.max(...weightItemsData.map(row => row.length));
 
   for (let j = 0; j < maxWeightItemsCount; j++) {
-    const rowData = [''].concat(weightItemsData.map(row => row[j] || ''));
+    const rowData = [j + 1];
+    for (let i = 0; i < weightItemsData.length; i++) {
+      const weightRow = weightItemsData[i];
+      const weight = weightRow[j] || '';
+      rowData.push(weight);
+    }
     mainSheetData.push(rowData);
   }
 
@@ -1055,41 +1072,7 @@ function generateExcel() {
   document.body.removeChild(downloadLink);
 }
 
-// function createShortcut() {
-//   // 檢查是否支援 Web Share API
-//   if (navigator.share) {
-//     navigator.share({
-//       title: '池邊價出貨記帳表',
-//       text: '提供快速池邊記帳功能',
-//       url: 'https://sungypsy420.github.io/test1.html'
-//     })
-//       .then(() => {
-//         // 分享成功後，使用 Add to Home Screen API 建立桌面捷徑
-//         if (window.addToHomescreen) {
-//           window.addToHomescreen();
-//         }
-//       })
-//       .catch((error) => {
-//         console.error('分享失敗：', error);
-//       });
-//   } else {
-//     console.error('瀏覽器不支援 Web Share API');
-//   }
-// }
 
-
-function createShortcut() {
-  if ('navigator' in window && 'standalone' in window.navigator && window.navigator.standalone) {
-    // 如果使用者已經在主畫面上，不執行任何操作
-    return;
-  }
-
-  if ('navigator' in window && 'standalone' in window.navigator && window.navigator.standalone === false) {
-    // 如果支援"Add to Home Screen"功能，顯示提示給使用者
-    // 你可以自訂提示內容或使用相應的圖示
-    alert('請點選分享按鈕，然後選擇「新增到主畫面」');
-  }
-}
 
   </script>
     <footer class="footer">
